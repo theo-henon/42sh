@@ -37,8 +37,10 @@ char *get_input_from_file(char *filename)
 
     if (buffer)
     {
-        fread(buffer, 1, len, fp);
-        buffer[len] = '\0';
+        if (fread(buffer, 1, len, fp) == 0)
+	    buffer[0] = '\0';
+	else
+	    buffer[len] = '\0';
     }
     else 
     {
