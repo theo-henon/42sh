@@ -1,16 +1,8 @@
-# IDE Settings
-.idea/
-.vscode/
-compile_flags.txt
-
-# Compiled files
-*.o
-*.a
-*.so
-42sh
-
-# Python files
-.venv/
-.pytest_cache/
-__pycache__
-Pipfile
+*
+!*.c
+!*.h
+!*.cxx
+!*.sh
+!*.py
+!Makefile.am
+!configure.ac
