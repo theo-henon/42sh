@@ -1,5 +1,7 @@
+from os import getenv
+
 REFSH_STRINPUT = ["bash", "--posix", "-c"]
 REFSH_FILEINPUT = ["bash", "--posix"]
-SH_STRINPUT = ["./src/42sh", "-c"]
-SH_FILEINPUT = ["./src/42sh"]
-SCRIPTS_DIR = "./tests/functional/inputs"
+SH_STRINPUT = [getenv("EXE"), "-c"]
+SH_FILEINPUT = [getenv("EXE")]
+SCRIPTS_DIR = "./inputs"

@@ -14,6 +14,8 @@ AC_CONFIG_FILES([
                     Makefile
                     src/Makefile
                     src/lexer/Makefile
+		    tests/Makefile
+		    tests/functional/Makefile
                 ])
 
 AC_OUTPUT

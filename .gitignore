@@ -41,3 +41,5 @@ Makefile
 
 *.o
 *.a
+
+__pycache__
