@@ -1,4 +1,4 @@
-#include "parser/io.h"
+#include "lexer/io.h"
 
 int main(int argc, char *argv[])
 {
