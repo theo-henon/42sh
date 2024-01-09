@@ -20,7 +20,6 @@ char *io(int argc, char *argv[])
         return get_input_from_file(argv[1]);
     if (argc == 1)
     {
-        printf("stdin mode \n");
         return get_input_from_stdin();
     }
     else 
