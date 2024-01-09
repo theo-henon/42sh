@@ -1,7 +1,13 @@
 MODULE = parser
 
-lib_LTLIBRARIES = lib$(MODULE).a
+lib_LIBRARIES = lib$(MODULE).a
 
-lib$(MODULE)_la_SOURCES = $(MODULE).c io.c
+libparser_a_SOURCES =  \
+	$(MODULE).c \
+	$(MODULE).h \
+	io.c \
+	io.h
 
-AM_CFLAGS = -std=c99 -pedantic -Werror -Wall -Wextra -Wvla
+libparser_a_CFLAGS= -std=c99 -pedantic -Werror -Wall -Wextra -Wvla
+
+noinst_LIBRARIES = lib$(MODULE).a
