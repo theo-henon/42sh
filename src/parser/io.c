@@ -1,16 +1,7 @@
+#define _POSIX_C_SOURCE 200809L
+
+
 #include "io.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <string.h>
-
-
-
-// ./42sh -c "echo hello" 
-// ./42sh file.sh
-// ./42sh (stdin)
-
 
 char *io(int argc, char *argv[])
 {
@@ -45,18 +36,24 @@ char *get_input_from_file(char *filename)
     char *buffer = malloc(sizeof(char) * len + 1);
 
     if (buffer)
+    {
         fread(buffer, 1, len, fp);
-    buffer[len] = '\0';
+        buffer[len] = '\0';
+    }
+    else 
+    {
+        fprintf(stderr, "Fail allocation !\n");
+        return NULL;
+    }
     fclose(fp);
     return buffer;
-
 }
 
 char *get_input_from_stdin(void)
 {
     char *input = NULL;
     size_t len = 0;
-    ssize_t read;
+    int read;
 
     read = getline(&input, &len, stdin);
 
@@ -69,13 +66,4 @@ char *get_input_from_stdin(void)
     if (input[read - 1] == '\n')
         input[read - 1] = '\0';
     return input;
-}
-
-
-
-int main(int argc, char *argv[])
-{
-    char *res = io(argc, argv);
-    printf("command: %s\n", res);
-    return 0;
 }
