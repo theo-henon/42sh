@@ -37,6 +37,15 @@ struct token *lexer_pop(struct lexer *lexer)
     token_free(lexer->current);
     size_t len = 0;
     char c = lexer->input[lexer->offset];
+    if (c == '\0')
+        return NULL;
+
+    while (c == ' ' || c == '\t')
+    {
+        lexer->offset++;
+        c = lexer->input[lexer->offset];
+    }
+
     if (c == '\n' || c == ';')
     {
         if (c == '\n')

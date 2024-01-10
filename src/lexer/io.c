@@ -1,12 +1,9 @@
-#define _POSIX_C_SOURCE 200809L
-
-
 #include "io.h"
 
 char *io(int argc, char *argv[])
 {
     if (argc == 3 && strcmp(argv[1], "-c") == 0)
-        return argv[2];
+        return strdup(argv[2]);
     if (argc == 2)
         return get_input_from_file(argv[1]);
     if (argc == 1)
