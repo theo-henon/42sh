@@ -20,6 +20,7 @@ void token_free(struct token *token)
 {
     if (!token)
         return;
+    free(token->value);
     free(token);
 }
 
