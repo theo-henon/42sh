@@ -1,14 +1,20 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-enum token_type 
+enum token_type
 {
     TOKEN_EOF,
     TOKEN_EOL,
-    TOKEN_SEMICOLON
+    TOKEN_SEMICOLON,
+    TOKEN_WORD,
+    TOKEN_IF,
+    TOKEN_FI,
+    TOKEN_ELSE,
+    TOKEN_THEN,
+    TOKEN_SIMPLE_QUOTE
 };
 
-struct token 
+struct token
 {
     unsigned row;
     unsigned col;

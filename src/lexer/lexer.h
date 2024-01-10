@@ -20,7 +20,7 @@ struct lexer
     unsigned col;
     enum lexer_status lexer_status;
     struct token *current;
-}; 
+};
 
 struct lexer *lexer_create(char *input);
 void lexer_free(struct lexer *lexer);
