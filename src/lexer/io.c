@@ -1,29 +1,26 @@
 #include "io.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 char *io(int argc, char *argv[])
 {
     if (argc == 3 && strcmp(argv[1], "-c") == 0)
         return strdup(argv[2]);
     if (argc == 2)
-        return get_input_from_file(argv[1]);
+        return get_input_from_file(fopen(argv[1], "r"));
     if (argc == 1)
-    {
-        return get_input_from_stdin();
-    }
-    else 
-    {
+        return get_input_from_file(stdin);
+    else
         fprintf(stderr, "Invalid Arguments\n");
-        return NULL;
-    }
-
+    return NULL;
 }
 
-char *get_input_from_file(char *filename)
+char *get_input_from_file(FILE *fp)
 {
-    FILE* fp = fopen(filename, "r");
     if (fp == NULL)
     {
-        fprintf(stderr, "File to open file !\n");
+        fprintf(stderr, "Fail to open file !\n");
         return NULL;
     }
     fseek(fp, 0, SEEK_END);
@@ -35,34 +32,15 @@ char *get_input_from_file(char *filename)
     if (buffer)
     {
         if (fread(buffer, 1, len, fp) == 0)
-	    buffer[0] = '\0';
-	else
-	    buffer[len] = '\0';
+            buffer[0] = '\0';
+        else
+            buffer[len] = '\0';
     }
-    else 
+    else
     {
         fprintf(stderr, "Fail allocation !\n");
         return NULL;
     }
     fclose(fp);
     return buffer;
-}
-
-char *get_input_from_stdin(void)
-{
-    char *input = NULL;
-    size_t len = 0;
-    int read;
-
-    read = getline(&input, &len, stdin);
-
-    if (read == -1)
-    {
-        fprintf(stderr, "Fail to read stdin !\n");
-        free(input);
-        return NULL;
-    }
-    if (input[read - 1] == '\n')
-        input[read - 1] = '\0';
-    return input;
 }

@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct token *token_create(enum token_type type, char *value, unsigned row, unsigned col)
+struct token *token_create(enum token_type type, char *value, unsigned row,
+                           unsigned col)
 {
     struct token *new_token = calloc(1, sizeof(struct token));
     if (!new_token)
@@ -27,8 +28,34 @@ void token_free(struct token *token)
     free(token);
 }
 
-void token_print(struct token *token)
+static const char *token_to_string(const struct token *token)
 {
-    // TODO: Trouver une convention pour le pretty print des tokens
-    token++;
+    switch (token->type)
+    {
+    case TOKEN_EOF:
+        return "EOF";
+    case TOKEN_EOL:
+        return "EOL";
+    case TOKEN_SEMICOLON:
+        return ";";
+    case TOKEN_WORD:
+        return token->value;
+    case TOKEN_IF:
+        return "if";
+    case TOKEN_THEN:
+        return "then";
+    case TOKEN_FI:
+        return "fi";
+    case TOKEN_ELSE:
+        return "else";
+    default:
+        return NULL;
+    }
+}
+
+void token_print(const struct token *token)
+{
+    if (token == NULL)
+        return;
+    puts(token_to_string(token));
 }

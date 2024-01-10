@@ -10,8 +10,7 @@ enum token_type
     TOKEN_IF,
     TOKEN_FI,
     TOKEN_ELSE,
-    TOKEN_THEN,
-    TOKEN_SIMPLE_QUOTE
+    TOKEN_THEN
 };
 
 struct token
@@ -22,8 +21,9 @@ struct token
     enum token_type type;
 };
 
-struct token *token_create(enum token_type type, char *value, unsigned row, unsigned col);
+struct token *token_create(enum token_type type, char *value, unsigned row,
+                           unsigned col);
 void token_free(struct token *token);
-void token_print(struct token *token);
+void token_print(const struct token *token);
 
 #endif // TOKEN_H
