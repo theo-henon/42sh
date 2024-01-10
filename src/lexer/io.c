@@ -3,21 +3,24 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define BUF_SIZE 128
+
 char *io(int argc, char *argv[])
 {
     if (argc == 3 && strcmp(argv[1], "-c") == 0)
         return strdup(argv[2]);
     if (argc == 2)
-        return get_input_from_file(fopen(argv[1], "r"));
+        return get_input_from_file(argv[1]);
     if (argc == 1)
-        return get_input_from_file(stdin);
+        return get_input_from_stdin();
     else
         fprintf(stderr, "Invalid Arguments\n");
     return NULL;
 }
 
-char *get_input_from_file(FILE *fp)
+char *get_input_from_file(const char *filename)
 {
+    FILE *fp = fopen(filename, "r");
     if (fp == NULL)
     {
         fprintf(stderr, "Fail to open file !\n");
@@ -43,4 +46,23 @@ char *get_input_from_file(FILE *fp)
     }
     fclose(fp);
     return buffer;
+}
+
+char *get_input_from_stdin(void)
+{
+    char buf[BUF_SIZE];
+    size_t size = 0;
+    char *input = NULL;
+    size_t readed = 0;
+    size_t cur = 0;
+    while ((readed = fread(buf, sizeof(char), BUF_SIZE, stdin)) > 0)
+    {
+        size += readed;
+        input = realloc(input, (size + 1) * sizeof(char));
+        input[size] = '\0';
+        strncpy(input + cur, buf, readed);
+        cur += readed;
+    }
+
+    return input;
 }
