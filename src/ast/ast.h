@@ -22,6 +22,6 @@ struct ast
 };
 
 
-void free_base(struct basse *base);
+void free_base(struct base *base);
 
 #endif /* ! AST_H */
