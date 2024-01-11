@@ -7,7 +7,7 @@ enum ast_type
 {
     SIMPLE_CMD,
     LIST,
-    IF
+    IF_CLAUSE
 };
 
 
@@ -22,5 +22,6 @@ struct ast
 };
 
 
+void free_base(struct basse *base);
 
 #endif /* ! AST_H */

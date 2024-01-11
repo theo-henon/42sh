@@ -1,4 +1,4 @@
-SUBDIRS = lexer
+SUBDIRS = lexer ast 
 
 bin_PROGRAMS = 42sh
 
@@ -9,4 +9,6 @@ bin_PROGRAMS = 42sh
 42sh_CFLAGS = -std=c99 -Werror -Wall -Wextra -Wvla -pedantic -fsanitize=address -g
 
 42sh_LDADD = \
-       lexer/liblexer.a
+       lexer/liblexer.a \
+       ast/libast.a
+
