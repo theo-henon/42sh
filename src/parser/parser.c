@@ -8,26 +8,46 @@
 
 
 
+
+struct simple_cmd *parse_simple_cmd(struct lexer *lexer)
+{
+    int i = 0;
+    char **args = calloc(1, strlen(lexer->current->value));
+    strcpy(args[i], lexer->current->value);
+    lexer_pop(lexer);
+    while (lexer->current->type == TOKEN_WORD)
+    {
+        args = realloc(args, sizeof(args) + strlen(lexer->current->value));
+        i++;
+        strcpy(args[i], lexer->current->value);
+        lexer_pop(lexer);
+    }
+    return create_simple_cmd(args);
+}
+
+struct list *parse_list(struct lexer lexer);
+
+
 struct ast *parse_input(struct lexer *lexer)
 {
     if (lexer->current->type == SIMPLE_CMD)
     {
-        int i = 0;
-        char **args = calloc(1, strlen(lexer->current->value));
-        strcpy(args[i], lexer->current->value);
-        lexer_pop(lexer);
-        while (lexer->current->type == TOKEN_WORD)
-        {
-            args = realloc(args, sizeof(args) + strlen(lexer->current->value));
-            i++;
-            strcpy(args[i], lexer->current->value);
-            lexer_pop(lexer);
-        }
+        struct simple_cmd *cmd = parse_simple_cmd(lexer);
+
     }
     else if (lexer->current->type == IF_CLAUSE)
     {
         
     }
+    else if (lexer->current->type == LIST)
+    {
+
+    }
+    else
+    {
+        
+    }
+
     /*
     switch (lexer->current->type)
     {
