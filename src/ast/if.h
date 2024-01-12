@@ -8,7 +8,6 @@ struct if_clause
     struct base base;
     struct base *condition;
     struct base *then_body;
-    struct if_clause **elif_body;
     struct base *else_body;
 };
 

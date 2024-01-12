@@ -19,6 +19,7 @@ struct simple_cmd *parse_simple_cmd(struct lexer *lexer)
         strcpy(args[i], lexer->current->value);
         lexer_pop(lexer);
     }
+    args[i++] = NULL;
     return create_simple_cmd(args);
 }
 
@@ -36,13 +37,14 @@ struct list *parse_list(struct lexer *lexer)
         j++;
         cmds[j] = tmp;
     }
+    cmds[j++] = NULL;
     return create_list(cmds);
 }
 
-struct if_clause *parse_if_clause(struct lexer *lexer)
+static struct if_clause *rec_if(struct lexer *lexer)
 {
     lexer_pop(lexer); //consome if 
-    struct list *if_body = parse_list(lexer); //if_body
+    struct list *condition = parse_list(lexer); //if_body
     if (lexer->current->type != TOKEN_THEN)
     {
         fprintf(stderr, "Error parsing: Missing then ! \n");
@@ -55,13 +57,24 @@ struct if_clause *parse_if_clause(struct lexer *lexer)
         fprintf(stderr, "Error parsing: Missing elif or else! \n");
         return NULL;
     }
-    if (lexer->current->type == TOKEN_ELIF)
+    return create_if_clause((struct base *)condition, (struct base *)then_body, NULL);
+}
+
+struct if_clause *parse_if_clause(struct lexer *lexer)
+{
+    struct if_clause *tmp;
+    tmp = rec_if(lexer);
+    struct if_clause *head = tmp;
+    while (lexer->current->type == TOKEN_ELIF)
     {
-        return NULL;
+        tmp->else_body = (struct base*)rec_if(lexer);
+        tmp = (struct if_clause*)tmp->else_body;
     }
-
-
-
+    if (lexer->current->type == TOKEN_ELSE)
+    {
+        tmp->else_body = (struct base*)parse_list(lexer);
+    }
+    return head;
 }
 
 
