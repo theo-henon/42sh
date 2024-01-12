@@ -3,7 +3,6 @@
 
 #include "simple_cmd.h"
 
-
 struct list
 {
     struct base base;

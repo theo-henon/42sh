@@ -1,12 +1,10 @@
 #define _POSIX_C_SOURCE 200809L
-#include <stdlib.h>
 #include <stdio.h>
-
-#include "lexer/io.h"
-#include "builtins/builtins.h"
+#include <stdlib.h>
 #include <string.h>
 
-
+#include "builtins/builtins.h"
+#include "lexer/io.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +18,8 @@ int main(int argc, char *argv[])
     int i = 0;
     int exit_code = 0;
     token = strtok(copy, " ");
-    while (token != NULL) {
+    while (token != NULL)
+    {
         words[i++] = token;
         token = strtok(NULL, " ");
     }
@@ -29,8 +28,8 @@ int main(int argc, char *argv[])
     {
         if (strcmp(words[j], "echo") == 0)
         {
-           builtin_echo(words + j);
-           break;
+            builtin_echo(words + j);
+            break;
         }
         if (strcmp(words[j], "true") == 0)
         {

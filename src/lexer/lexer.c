@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "token.h"
 
 struct lexer *lexer_create(char *input)
@@ -56,15 +57,15 @@ struct token *lexer_pop(struct lexer *lexer)
             lexer->row++;
             lexer->col = 0;
         }
-        lexer->current =
-            token_create(c == '\n' ? TOKEN_EOL : TOKEN_SEMICOLON, NULL, lexer->row, lexer->col);
+        lexer->current = token_create(c == '\n' ? TOKEN_EOL : TOKEN_SEMICOLON,
+                                      NULL, lexer->row, lexer->col);
         lexer->offset++;
         return lexer->current;
     }
     while (c != '\0')
     {
         if (c == '\n' || c == ';' || c == ' ' || c == '\t')
-        {  
+        {
             if (c == '\n')
             {
                 lexer->row++;
@@ -82,7 +83,8 @@ struct token *lexer_pop(struct lexer *lexer)
     lexer->offset -= len;
     char *new_token = strndup(lexer->input + lexer->offset, len);
     lexer->offset += len;
-    lexer->current = token_create(search_token_type(new_token), new_token, lexer->row, lexer->col);
+    lexer->current = token_create(search_token_type(new_token), new_token,
+                                  lexer->row, lexer->col);
     return lexer->current;
 }
 

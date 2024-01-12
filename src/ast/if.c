@@ -1,8 +1,12 @@
 #include "if.h"
-#include "ast.h"
+
 #include <stdlib.h>
 
-struct if_clause *create_if_clause(struct base *condition, struct base *then_body, struct base *else_body)
+#include "ast.h"
+
+struct if_clause *create_if_clause(struct base *condition,
+                                   struct base *then_body,
+                                   struct base *else_body)
 {
     struct if_clause *if_clause = calloc(1, sizeof(struct if_clause));
     if_clause->base.type = IF_CLAUSE;

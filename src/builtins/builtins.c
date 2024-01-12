@@ -5,7 +5,8 @@
 struct builtin **builtins_load(void)
 {
     int builtin_count = 3;
-    struct builtin **builtins = calloc(builtin_count + 1, sizeof(struct builtin *));
+    struct builtin **builtins =
+        calloc(builtin_count + 1, sizeof(struct builtin *));
     if (builtins != NULL)
     {
         for (int i = 0; i < builtin_count; i++)

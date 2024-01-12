@@ -1,15 +1,12 @@
 #ifndef AST_H
 #define AST_H
 
-
-
-enum ast_type 
+enum ast_type
 {
     SIMPLE_CMD,
     LIST,
     IF_CLAUSE
 };
-
 
 struct base
 {
@@ -20,7 +17,6 @@ struct ast
 {
     struct base *root;
 };
-
 
 void free_base(struct base *base);
 

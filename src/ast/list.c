@@ -16,9 +16,8 @@ void free_list(struct list *list)
     struct simple_cmd **tmp = list->cmds;
     while (tmp)
     {
-        free(*tmp); 
+        free(*tmp);
         tmp++;
     }
     free(tmp);
 }
-

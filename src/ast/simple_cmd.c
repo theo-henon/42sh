@@ -1,6 +1,5 @@
 #include "simple_cmd.h"
 
-
 #include <stdlib.h>
 
 struct simple_cmd *create_simple_cmd(char **args)
@@ -10,7 +9,6 @@ struct simple_cmd *create_simple_cmd(char **args)
     simple_cmd->args = args;
 
     return simple_cmd;
-
 }
 
 void free_simple_cmd(struct simple_cmd *cmd)

@@ -1,14 +1,14 @@
-#include "builtins.h"
-
 #include <stdio.h>
 #include <string.h>
+
+#include "builtins.h"
 
 int echo_n_flag(char **argv)
 {
     int i = 1;
-    if(argv[i] == NULL)
+    if (argv[i] == NULL)
         return 0;
-    while(argv[i + 1] != NULL)
+    while (argv[i + 1] != NULL)
     {
         printf("%s ", argv[i]);
         i++;
@@ -20,11 +20,11 @@ int echo_n_flag(char **argv)
 int is_in_quotes(char *token)
 {
     int len = strlen(token);
-    if(token[0] == '"' && token[len - 1] == '"')
+    if (token[0] == '"' && token[len - 1] == '"')
     {
         return 2;
     }
-    if(token[0] == '\'' && token[len - 1] == '\'')
+    if (token[0] == '\'' && token[len - 1] == '\'')
     {
         return 1;
     }
@@ -33,35 +33,42 @@ int is_in_quotes(char *token)
 
 int echo_e_flag(char **arguments)
 {
-    if (arguments == NULL || arguments[1] == NULL) {
+    if (arguments == NULL || arguments[1] == NULL)
+    {
         puts("");
         return 0;
     }
 
-    for (int i = 1; arguments[i] != NULL; ++i) {
-        char* argument = arguments[i];
-        while (*argument != '\0') {
-            if (*argument == '\\') {
+    for (int i = 1; arguments[i] != NULL; ++i)
+    {
+        char *argument = arguments[i];
+        while (*argument != '\0')
+        {
+            if (*argument == '\\')
+            {
                 argument++;
-                switch (*argument) {
-                    case 'n':
-                        putchar('\n');
-                        break;
-                    case 't':
-                        putchar('\t');
-                        break;
-                    case '\\':
-                        putchar('\\');
-                        break;
-                    default:
-                        break;
+                switch (*argument)
+                {
+                case 'n':
+                    putchar('\n');
+                    break;
+                case 't':
+                    putchar('\t');
+                    break;
+                case '\\':
+                    putchar('\\');
+                    break;
+                default:
+                    break;
                 }
-            } else {
+            }
+            else
+            {
                 putchar(*argument);
             }
             ++argument;
         }
-        putchar(' '); 
+        putchar(' ');
     }
     return 1;
 }
@@ -74,15 +81,18 @@ int tablen(char **arg)
     return i;
 }
 
-int builtin_echo(char **argv) {
+int builtin_echo(char **argv)
+{
     argv++;
     int argc = tablen(argv);
-    if(argc >= 1 && argv[0][0] == '-')
+    if (argc >= 1 && argv[0][0] == '-')
     {
-        if(strcmp(argv[0], "-n") == 0) {
+        if (strcmp(argv[0], "-n") == 0)
+        {
             return echo_n_flag(argv);
         }
-        if(strcmp(argv[0], "-e") == 0) {
+        if (strcmp(argv[0], "-e") == 0)
+        {
             return echo_e_flag(argv);
         }
         if (strcmp(argv[0], "-E") == 0)
@@ -92,7 +102,8 @@ int builtin_echo(char **argv) {
     }
 
     int i = 0;
-    while (argv[i] != NULL) {
+    while (argv[i] != NULL)
+    {
         printf("%s ", argv[i]);
         i++;
     }
@@ -102,8 +113,8 @@ int builtin_echo(char **argv) {
 
 /*int main(int argc, char **argv)
 {
-    char* args[] = {"echo", "-n", "yoyoyo" ,NULL};// "Hello", "World", "Line\\nBreak", "Tab\\tTest", "Backslash\\\\", NULL};
-    builtin_echo(args);
+    char* args[] = {"echo", "-n", "yoyoyo" ,NULL};// "Hello", "World",
+"Line\\nBreak", "Tab\\tTest", "Backslash\\\\", NULL}; builtin_echo(args);
 
     return 0;
 }*/
