@@ -1,4 +1,4 @@
-SUBDIRS = lexer ast 
+SUBDIRS = lexer ast parser
 
 bin_PROGRAMS = 42sh
 
@@ -10,5 +10,7 @@ bin_PROGRAMS = 42sh
 
 42sh_LDADD = \
        lexer/liblexer.a \
-       ast/libast.a
+       ast/libast.a \
+       parser/libparser.a
+
 

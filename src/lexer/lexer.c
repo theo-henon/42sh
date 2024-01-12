@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "token.h"
 
 struct lexer *lexer_create(char *input)
 {
@@ -26,6 +27,8 @@ enum token_type search_token_type(const char *token)
         return TOKEN_ELSE;
     else if (strcmp(token, "then") == 0)
         return TOKEN_THEN;
+    else if (strcmp(token, "elif") == 0)
+        return TOKEN_ELIF;
     else
         return TOKEN_WORD;
 }

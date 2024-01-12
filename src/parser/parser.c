@@ -3,10 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-
-
-
-
+#include <stdio.h>
 
 
 struct simple_cmd *parse_simple_cmd(struct lexer *lexer)
@@ -25,50 +22,46 @@ struct simple_cmd *parse_simple_cmd(struct lexer *lexer)
     return create_simple_cmd(args);
 }
 
-struct list *parse_list(struct lexer lexer);
-
-
-struct ast *parse_input(struct lexer *lexer)
+struct list *parse_list(struct lexer *lexer)
 {
-    if (lexer->current->type == SIMPLE_CMD)
+    int j = 0;
+    struct simple_cmd *tmp = parse_simple_cmd(lexer);
+    struct simple_cmd **cmds = calloc(1, sizeof(*tmp));
+    cmds[j] = tmp;
+    // add token and, or & during the next step
+    while (lexer->current->type == TOKEN_SEMICOLON || lexer->current->type == TOKEN_EOL)
     {
-        struct simple_cmd *cmd = parse_simple_cmd(lexer);
-
+        tmp = parse_simple_cmd(lexer);
+        cmds = realloc(cmds, sizeof(cmds) + sizeof(*tmp));
+        j++;
+        cmds[j] = tmp;
     }
-    else if (lexer->current->type == IF_CLAUSE)
+    return create_list(cmds);
+}
+
+struct if_clause *parse_if_clause(struct lexer *lexer)
+{
+    lexer_pop(lexer); //consome if 
+    struct list *if_body = parse_list(lexer); //if_body
+    if (lexer->current->type != TOKEN_THEN)
     {
-        
+        fprintf(stderr, "Error parsing: Missing then ! \n");
+        return NULL;
     }
-    else if (lexer->current->type == LIST)
+    lexer_pop(lexer); // consume then
+    struct list *then_body = parse_list(lexer);
+    if (lexer->current->type != TOKEN_ELIF && lexer->current->type != TOKEN_ELSE)
     {
-
+        fprintf(stderr, "Error parsing: Missing elif or else! \n");
+        return NULL;
     }
-    else
+    if (lexer->current->type == TOKEN_ELIF)
     {
-        
+        return NULL;
     }
 
-    /*
-    switch (lexer->current->type)
-    {
-        case SIMPLE_CMD:
-            char **args = calloc(1, strlen(lexer->current->value));
-            strcpy(args[0], lexer->current->value);
 
-            struct token *tmp = lexer_pop(lexer);
-            if (tmp)
-            create_simple_cmd(char **args)
-            break;
-        case TOKEN_IF:
-            create_if_clause(struct base *condition, struct base *then_body, struct base *else_body)
-            break;
-        case 
-
-    }
-    */
 
 }
 
-struct simple_cmd *parse_simple_cmd(struct lexer lexer);
-struct list *parse_list(struct lexer lexer);
-struct if_clause *parse_if_clause(struct lexer lexer);
+

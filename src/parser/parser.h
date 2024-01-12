@@ -23,8 +23,8 @@ struct parser
 
 struct ast *parse_input(struct lexer *lexer);
 struct simple_cmd *parse_simple_cmd(struct lexer *lexer);
-struct list *parse_list(struct lexer lexer);
-struct if_clause *parse_if_clause(struct lexer lexer);
+struct list *parse_list(struct lexer *lexer);
+struct if_clause *parse_if_clause(struct lexer *lexer);
 
 
 

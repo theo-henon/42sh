@@ -10,7 +10,8 @@ enum token_type
     TOKEN_IF,
     TOKEN_FI,
     TOKEN_ELSE,
-    TOKEN_THEN
+    TOKEN_THEN,
+    TOKEN_ELIF
 };
 
 struct token
