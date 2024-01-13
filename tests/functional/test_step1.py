@@ -98,3 +98,39 @@ def test_if_echo_else(filename, input_type):
 @pytest.mark.parametrize("filename,input_type", get_test_parameters("if_invalid_syntax.sh"))
 def test_if_invalid_syntax(filename, input_type):
     assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("single_quoted_echo.sh"))
+def test_single_quoted_echo(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_e_option.sh"))
+def test_echo_single_quoted_e_option(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_E_option.sh"))
+def test_echo_single_quoted_E_option(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_n_option.sh"))
+def test_echo_single_quoted_n_option(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_ne_options.sh"))
+def test_echo_single_quoted_ne_options(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_nE_options.sh"))
+def test_echo_single_quoted_nE_options(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("invalid_cmd_name.sh"))
+def test_invalid_cmd_name(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("single_quoted_invalid_cmd_name.sh"))
+def test_single_quoted_invalid_cmd_name(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_commentary.sh"))
+def test_echo_single_quoted_commentary(filename, input_type):
+    assert_cmd(filename, input_type)
