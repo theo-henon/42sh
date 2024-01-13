@@ -1,3 +1,4 @@
+#!/bin/sh
 if echo
 then
     echo toto
