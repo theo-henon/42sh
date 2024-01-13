@@ -19,7 +19,7 @@ class ShellScript():
         ref_args.append(self.content)
         ref_out = subprocess.run(ref_args, subprocess.PIPE)
 
-        args = config.SH_FILEINPUT.copy()
+        args = config.SH_STRINPUT.copy()
         args.append(self.content)
         out = subprocess.run(args, subprocess.PIPE)
 
