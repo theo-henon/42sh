@@ -23,7 +23,8 @@ class ShellScript():
         args.append(self.content)
         out = subprocess.run(args, subprocess.PIPE)
 
-        assert ref_out.stdout == out.stdout and ref_out.returncode == out.returncode
+        assert ref_out.stdout == out.stdout
+        assert ref_out.returncode == out.returncode
 
     def exec_from_file(self):
         ref_args = config.REFSH_FILEINPUT.copy()
@@ -34,14 +35,17 @@ class ShellScript():
         args.append(self.filename)
         out = subprocess.run(args, subprocess.PIPE)
 
-        assert ref_out.stdout == out.stdout and ref_out.returncode == out.returncode
+        assert ref_out.stdout == out.stdout 
+        assert ref_out.returncode == out.returncode
 
 
     def exec_from_stdin(self):
+        encoded_content = self.content.encode()
         ref_p = subprocess.Popen(config.REFSH_FILEINPUT, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-        ref_stdout = ref_p.communicate(self.content)[0]
+        ref_stdout = ref_p.communicate(input=encoded_content)[0]
         
         p = subprocess.Popen(config.SH_FILEINPUT, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout = p.communicate(self.content)[0]
+        stdout = p.communicate(input=encoded_content)[0]
 
-        assert ref_stdout == stdout and ref_p.returncode == p.returncode
+        assert ref_stdout == stdout 
+        assert ref_p.returncode == p.returncode
