@@ -16,14 +16,11 @@ enum token_type
 
 struct token
 {
-    unsigned row;
-    unsigned col;
     char *value;
     enum token_type type;
 };
 
-struct token *token_create(enum token_type type, char *value, unsigned row,
-                           unsigned col);
+struct token *token_create(enum token_type type, char *value);
 void token_free(struct token *token);
 void token_print(const struct token *token);
 

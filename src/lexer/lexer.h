@@ -16,8 +16,6 @@ struct lexer
 {
     char *input;
     size_t offset;
-    unsigned row;
-    unsigned col;
     enum lexer_status lexer_status;
     struct token *current;
 };

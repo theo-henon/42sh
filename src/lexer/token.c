@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct token *token_create(enum token_type type, char *value, unsigned row,
-                           unsigned col)
+struct token *token_create(enum token_type type, char *value)
 {
     struct token *new_token = calloc(1, sizeof(struct token));
     if (!new_token)
@@ -15,8 +14,6 @@ struct token *token_create(enum token_type type, char *value, unsigned row,
     }
     new_token->value = value;
     new_token->type = type;
-    new_token->row = row;
-    new_token->col = col;
     return new_token;
 }
 
