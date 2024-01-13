@@ -54,3 +54,27 @@ def test_echo_e_option(filename, input_type):
 @pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_E_option.sh"))
 def test_echo_E_option(filename, input_type):
     assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_E_option.sh"))
+def test_echo_E_option(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("true.sh"))
+def test_true(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("false.sh"))
+def test_false(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_else_simple.sh"))
+def test_if_else_simple(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_echo_else.sh"))
+def test_if_echo_else(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_invalid_syntax.sh"))
+def test_if_invalid_syntax(filename, input_type):
+    assert_cmd(filename, input_type)

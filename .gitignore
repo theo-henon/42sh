@@ -49,3 +49,7 @@ __pycache__
 .clangd
 .vscode
 compile_flags.txt
+lexer_tests
+ast_tests
+parser_tests
+builtins_tests
