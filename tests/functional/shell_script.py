@@ -5,12 +5,12 @@ import sys
 import config
 
 class ShellScript():
-    def __init__(self, filename):
-        self.filename = os.path.join(config.SCRIPTS_DIR, filename)
+    def __init__(self, script_path):
+        self.script_path = script_path
         self.content = self.__read_script()
 
     def __read_script(self):
-        file = open(self.filename)
+        file = open(self.script_path)
         content = file.read()
         return content
 
@@ -37,11 +37,11 @@ class ShellScript():
 
     def exec_from_file(self):
         ref_args = config.REFSH_FILEINPUT.copy()
-        ref_args.append(self.filename)
+        ref_args.append(self.script_path)
         ref_out = subprocess.run(ref_args, stdout=subprocess.PIPE)
 
         args = config.SH_FILEINPUT.copy()
-        args.append(self.filename)
+        args.append(self.script_path)
         out = subprocess.run(args, stdout=subprocess.PIPE)
 
         if ref_out.stdout != out.stdout:

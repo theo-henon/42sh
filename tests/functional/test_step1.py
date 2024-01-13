@@ -1,136 +1,22 @@
+import os
 import pytest
 
 from shell_script import ShellScript
+from utils import assert_cmd
 
-def get_test_parameters(filename):
-    return [
-            (filename, "string"),
-            (filename, "file"),
-            (filename, "stdin")
-    ]
+scripts_dir = './tests/functional/inputs/step1'
+scripts = [f for f in os.listdir(scripts_dir) if os.path.isfile(os.path.join(scripts_dir, f))]
 
-def assert_cmd(filename, input_type):
-    script = ShellScript(filename)
-    if input_type == "string":
-        script.exec_from_string()
-    elif input_type == "file":
-        script.exec_from_file()
-    elif input_type == "stdin":
-        script.exec_from_stdin()
+@pytest.mark.parametrize('script', scripts)
+def test_script(script):
+    cmd = ShellScript(os.path.join(scripts_dir, script))
+    errors = []
 
+    for input_type in ("string", "file", "stdin"):
+        try:
+            assert_cmd(cmd, input_type)
+        except AssertionError as e:
+            errors.append(f"Failed for {input_type} input: {str(e)}")
 
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("empty.sh"))
-def test_empty(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo.sh"))
-def test_echo(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_toto.sh"))
-def test_echo_toto(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_true.sh"))
-def test_echo_true(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_false.sh"))
-def test_echo_false(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_multiple_args.sh"))
-def test_echo_multiple_args(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_n_option.sh"))
-def test_echo_n_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_e_option.sh"))
-def test_echo_e_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_E_option.sh"))
-def test_echo_E_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_E_option.sh"))
-def test_echo_E_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_ne_options.sh"))
-def test_echo_ne_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_nE_options.sh"))
-def test_echo_nE_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_options_after_word.sh"))
-def test_echo_options_after_word(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("true.sh"))
-def test_true(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("false.sh"))
-def test_false(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_simple.sh"))
-def test_if_simple(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_echo.sh"))
-def test_if_echo(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_else_simple.sh"))
-def test_if_else_simple(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_echo_else.sh"))
-def test_if_echo_else(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_invalid_syntax.sh"))
-def test_if_invalid_syntax(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("single_quoted_echo.sh"))
-def test_single_quoted_echo(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_e_option.sh"))
-def test_echo_single_quoted_e_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_E_option.sh"))
-def test_echo_single_quoted_E_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_n_option.sh"))
-def test_echo_single_quoted_n_option(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_ne_options.sh"))
-def test_echo_single_quoted_ne_options(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_nE_options.sh"))
-def test_echo_single_quoted_nE_options(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("invalid_cmd_name.sh"))
-def test_invalid_cmd_name(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("single_quoted_invalid_cmd_name.sh"))
-def test_single_quoted_invalid_cmd_name(filename, input_type):
-    assert_cmd(filename, input_type)
-
-@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_single_quoted_commentary.sh"))
-def test_echo_single_quoted_commentary(filename, input_type):
-    assert_cmd(filename, input_type)
+    if errors:
+        raise AssertionError("\n" + "\n".join(errors))
