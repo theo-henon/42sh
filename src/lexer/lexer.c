@@ -1,5 +1,6 @@
 #include "lexer.h"
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,6 +35,33 @@ enum token_type search_token_type(const char *token)
         return TOKEN_WORD;
 }
 
+static void skip_whitespaces(struct lexer *lexer)
+{
+    while (isblank(lexer->input[lexer->offset]))
+        lexer->offset++;
+}
+
+static void skip_commentary(struct lexer *lexer)
+{
+    while (lexer->input[lexer->offset] != '\0' && lexer->input[lexer->offset] != '\n')
+        lexer->offset++;
+}
+
+static struct token *read_cmd_separator(struct lexer *lexer)
+{
+    char c = lexer->input[lexer->offset];
+    if (c == '\n')
+    {
+        lexer->row++;
+        lexer->col = 0;
+    }
+    lexer->current = token_create(c == '\n' ? TOKEN_EOL : TOKEN_SEMICOLON, NULL,
+                                  lexer->row, lexer->col);
+    lexer->offset++;
+    return lexer->current;
+}
+
+
 struct token *lexer_pop(struct lexer *lexer)
 {
     if (!lexer)
@@ -44,27 +72,15 @@ struct token *lexer_pop(struct lexer *lexer)
     if (c == '\0')
         return NULL;
 
-    while (c == ' ' || c == '\t')
-    {
-        lexer->offset++;
-        c = lexer->input[lexer->offset];
-    }
-
+    skip_whitespaces(lexer);
+    if (c == '#')
+        skip_commentary(lexer);
     if (c == '\n' || c == ';')
-    {
-        if (c == '\n')
-        {
-            lexer->row++;
-            lexer->col = 0;
-        }
-        lexer->current = token_create(c == '\n' ? TOKEN_EOL : TOKEN_SEMICOLON,
-                                      NULL, lexer->row, lexer->col);
-        lexer->offset++;
-        return lexer->current;
-    }
+        return read_cmd_separator(lexer);
+
     while (c != '\0')
     {
-        if (c == '\n' || c == ';' || c == ' ' || c == '\t')
+        if (c == '\n' || c == ';' || isblank(c))
         {
             if (c == '\n')
             {
