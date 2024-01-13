@@ -3,7 +3,7 @@
 
 #include "builtins.h"
 
-int echo_n_flag(char **argv)
+static int echo_n_flag(char **argv)
 {
     int i = 1;
     if (argv[i] == NULL)
@@ -17,21 +17,7 @@ int echo_n_flag(char **argv)
     return 0;
 }
 
-int is_in_quotes(char *token)
-{
-    int len = strlen(token);
-    if (token[0] == '"' && token[len - 1] == '"')
-    {
-        return 2;
-    }
-    if (token[0] == '\'' && token[len - 1] == '\'')
-    {
-        return 1;
-    }
-    return 0;
-}
-
-int echo_e_flag(char **arguments)
+static int echo_e_flag(char **arguments)
 {
     if (arguments == NULL || arguments[1] == NULL)
     {
@@ -73,7 +59,7 @@ int echo_e_flag(char **arguments)
     return 1;
 }
 
-int tablen(char **arg)
+static int tablen(char **arg)
 {
     int i = 0;
     while (arg[i])
@@ -110,11 +96,3 @@ int builtin_echo(char **argv)
     printf("\n");
     return 0;
 }
-
-/*int main(int argc, char **argv)
-{
-    char* args[] = {"echo", "-n", "yoyoyo" ,NULL};// "Hello", "World",
-"Line\\nBreak", "Tab\\tTest", "Backslash\\\\", NULL}; builtin_echo(args);
-
-    return 0;
-}*/
