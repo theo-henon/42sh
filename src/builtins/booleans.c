@@ -2,14 +2,12 @@
 
 #include "builtins.h"
 
-int builtin_true(char **argv)
+int builtin_true(__attribute__((unused)) char **argv)
 {
-    argv++;
     return 0;
 }
 
-int builtin_false(char **argv)
+int builtin_false(__attribute__((unused)) char **argv)
 {
-    argv++;
     return 1;
 }
