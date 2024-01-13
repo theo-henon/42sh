@@ -6,3 +6,6 @@ lexer_tests_CFLAGS = -std=c99 -Werror -Wall -Wextra -Wvla -pedantic -fsanitize=a
 lexer_tests_LDADD = \
        $(top_builddir)/src/lexer/liblexer.a \
        -lcriterion
+
+check-local: $(top_builddir)/tests/unit/lexer_tests
+	$(top_builddir)/tests/unit/lexer_tests
