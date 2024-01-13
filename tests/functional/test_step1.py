@@ -59,6 +59,18 @@ def test_echo_E_option(filename, input_type):
 def test_echo_E_option(filename, input_type):
     assert_cmd(filename, input_type)
 
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_ne_options.sh"))
+def test_echo_ne_option(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_nE_options.sh"))
+def test_echo_nE_option(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("echo_options_after_word.sh"))
+def test_echo_options_after_word(filename, input_type):
+    assert_cmd(filename, input_type)
+
 @pytest.mark.parametrize("filename,input_type", get_test_parameters("true.sh"))
 def test_true(filename, input_type):
     assert_cmd(filename, input_type)
