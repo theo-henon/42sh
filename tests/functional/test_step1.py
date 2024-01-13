@@ -79,6 +79,14 @@ def test_true(filename, input_type):
 def test_false(filename, input_type):
     assert_cmd(filename, input_type)
 
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_simple.sh"))
+def test_if_simple(filename, input_type):
+    assert_cmd(filename, input_type)
+
+@pytest.mark.parametrize("filename,input_type", get_test_parameters("if_echo.sh"))
+def test_if_echo(filename, input_type):
+    assert_cmd(filename, input_type)
+
 @pytest.mark.parametrize("filename,input_type", get_test_parameters("if_else_simple.sh"))
 def test_if_else_simple(filename, input_type):
     assert_cmd(filename, input_type)
