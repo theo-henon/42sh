@@ -46,3 +46,6 @@ Makefile
 __pycache__
 .pytest_cache
 .venv/
+.clangd
+.vscode
+compile_flags.txt
