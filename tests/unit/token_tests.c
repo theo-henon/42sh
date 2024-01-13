@@ -16,12 +16,13 @@ Test(token_tests, create_null_value)
 
 Test(token_tests, create_not_null_value)
 {
-    char value[] = "echo";
-    struct token *t = token_create(TOKEN_EOL, value, 0, 0);
+    char *echo = calloc(5, sizeof(char));
+    strcpy(echo, "echo");
+    struct token *t = token_create(TOKEN_EOL, echo, 0, 0);
     cr_assert_not_null(t);
     cr_expect_eq(t->col, 0);
     cr_expect_eq(t->row, 0);
-    cr_expect_str_eq(t->value, value);
+    cr_expect_str_eq(t->value, echo);
     cr_expect_eq(t->type, TOKEN_EOL);
     token_free(t);
 }
@@ -55,7 +56,9 @@ Test(token_tests, print_semicolon, .init = cr_redirect_stdout)
 
 Test(token_tests, print_word, .init = cr_redirect_stdout)
 {
-    struct token *word = token_create(TOKEN_WORD, "echo", 0, 0);
+    char *echo = calloc(5, sizeof(char));
+    strcpy(echo, "echo");
+    struct token *word = token_create(TOKEN_WORD, echo, 0, 0);
     token_print(word);
     fflush(stdout);
     cr_expect_stdout_eq_str("echo\n");
