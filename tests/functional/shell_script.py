@@ -1,6 +1,4 @@
-import os
 import subprocess
-import sys
 
 import config
 
@@ -54,7 +52,7 @@ class ShellScript():
         encoded_content = self.content.encode()
         ref_p = subprocess.Popen(config.REFSH_FILEINPUT, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
         ref_stdout = ref_p.communicate(input=encoded_content)[0]
-        
+
         p = subprocess.Popen(config.SH_FILEINPUT, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout = p.communicate(input=encoded_content)[0]
 
