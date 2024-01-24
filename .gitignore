@@ -53,3 +53,6 @@ lexer_tests
 ast_tests
 parser_tests
 builtins_tests
+visitor_tests
+*.swp
+docs/

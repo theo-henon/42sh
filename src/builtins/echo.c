@@ -1,63 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "builtins.h"
-
-static int echo_n_flag(char **argv)
-{
-    int i = 1;
-    if (argv[i] == NULL)
-        return 0;
-    while (argv[i + 1] != NULL)
-    {
-        printf("%s ", argv[i]);
-        i++;
-    }
-    printf("%s", argv[i]);
-    return 0;
-}
-
-static int echo_e_flag(char **arguments)
-{
-    if (arguments == NULL || arguments[1] == NULL)
-    {
-        puts("");
-        return 0;
-    }
-
-    for (int i = 1; arguments[i] != NULL; ++i)
-    {
-        char *argument = arguments[i];
-        while (*argument != '\0')
-        {
-            if (*argument == '\\')
-            {
-                argument++;
-                switch (*argument)
-                {
-                case 'n':
-                    putchar('\n');
-                    break;
-                case 't':
-                    putchar('\t');
-                    break;
-                case '\\':
-                    putchar('\\');
-                    break;
-                default:
-                    break;
-                }
-            }
-            else
-            {
-                putchar(*argument);
-            }
-            ++argument;
-        }
-        putchar(' ');
-    }
-    return 1;
-}
 
 static int tablen(char **arg)
 {
@@ -67,32 +12,113 @@ static int tablen(char **arg)
     return i;
 }
 
+static void echo_n_flag(char **args, int index)
+{
+    if (index >= tablen(args))
+        return;
+    int i;
+    for (i = index; args[i + 1] != NULL; i++)
+        printf("%s ", args[i]);
+    printf("%s", args[i]);
+}
+
+static void print_special(char c)
+{
+    switch (c)
+    {
+    case 'n':
+        printf("\n");
+        break;
+    case 't':
+        printf("\t");
+        break;
+    case '\\':
+        printf("\\");
+        break;
+    default:
+        printf("%c", c);
+    }
+}
+
+static void echo_e_flag(char **args, int index)
+{
+    if (index >= tablen(args))
+        return;
+    int i;
+    int j;
+    for (i = index; args[i] != NULL; i++)
+    {
+        for (j = 0; args[i][j] != '\0'; j++)
+        {
+            if (args[i][j] == '\\')
+            {
+                j++;
+                print_special(args[i][j]);
+            }
+            else
+            {
+                printf("%c", args[i][j]);
+            }
+        }
+        if (args[i + 1] != NULL)
+            printf(" ");
+    }
+}
+
+int flags_parsing(char *argv[], int *line_feed, int *interpret)
+{
+    int argc = tablen(argv);
+    int opt;
+    opterr = 0;
+    *line_feed = 1;
+    *interpret = 0;
+    int is_valide = 1;
+    while ((opt = getopt(argc, argv, "neE")) != -1)
+    {
+        switch (opt)
+        {
+        case 'n':
+            *line_feed = 0;
+            break;
+        case 'e':
+            *interpret = 1;
+            break;
+        case 'E':
+            *interpret = 0;
+            break;
+        default:
+            is_valide = 0;
+            optind--;
+            break;
+        }
+        if (is_valide == 0)
+            break;
+    }
+    return optind;
+}
+
 int builtin_echo(char **argv)
 {
-    argv++;
-    int argc = tablen(argv);
-    if (argc >= 1 && argv[0][0] == '-')
-    {
-        if (strcmp(argv[0], "-n") == 0)
-        {
-            return echo_n_flag(argv);
-        }
-        if (strcmp(argv[0], "-e") == 0)
-        {
-            return echo_e_flag(argv);
-        }
-        if (strcmp(argv[0], "-E") == 0)
-        {
-            argv++;
-        }
-    }
+    int line_feed;
+    int interpret;
+    int index = flags_parsing(argv, &line_feed, &interpret);
 
-    int i = 0;
-    while (argv[i] != NULL)
+    if (interpret == 1)
     {
-        printf("%s ", argv[i]);
-        i++;
+        echo_e_flag(argv, index);
+        if (line_feed == 1)
+            puts("");
     }
-    printf("\n");
+    else
+    {
+        if (line_feed == 0)
+            echo_n_flag(argv, index);
+        else
+        {
+           echo_n_flag(argv, index);
+           putchar('\n');
+        }
+    }
     return 0;
 }
+

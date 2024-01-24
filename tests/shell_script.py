@@ -16,7 +16,7 @@ class ShellScript():
         return f"Expected stdout content : {str(ref_out)}, but got: {str(out)}"
     
     def __codediff(self, refcode, code):
-        f"Expected exit code: {refcode}, but got exit code: {code}"
+        return f"Expected exit code: {refcode}, but got exit code: {code}"
 
     def exec_from_string(self):
         ref_args = config.REFSH_STRINPUT.copy()

@@ -1,0 +1,54 @@
+#include "visitor.h"
+
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "and_or_visitor.h"
+#include "list_visitor.h"
+#include "pipeline_visitor.h"
+#include "simple_cmd_visitor.h"
+
+struct visitor *visitor_init(void)
+{
+    errno = 0;
+    struct visitor *visitor = calloc(1, sizeof(struct visitor));
+    if (visitor != NULL)
+    {
+        visitor->base_visit = base_visit;
+        visitor->list_visit = list_visit;
+        visitor->and_or_visit = and_or_visit;
+        visitor->pipeline_visit = pipeline_visit;
+        visitor->simple_cmd_visit = simple_cmd_visit;
+        visitor->builtins = builtins_load();
+    }
+    else
+        perror("Cannot create visitor");
+    return visitor;
+}
+
+void visitor_free(struct visitor *visitor)
+{
+    if (visitor != NULL)
+    {
+        builtins_free(visitor->builtins);
+        free(visitor);
+    }
+}
+
+int base_visit(struct visitor *visitor, struct base *base)
+{
+    switch (base->type)
+    {
+    case LIST:
+        return visitor->list_visit(visitor, (struct list *)base);
+    case AND_OR:
+        return visitor->and_or_visit(visitor, (struct and_or *)base);
+    case PIPELINE:
+        return visitor->pipeline_visit(visitor, (struct pipeline *)base);
+    case SIMPLE_CMD:
+        return visitor->simple_cmd_visit(visitor, (struct simple_cmd *)base);
+    default:
+        return 2;
+    }
+}
