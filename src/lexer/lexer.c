@@ -70,7 +70,7 @@ static char *lexer_read(struct lexer *lexer, char *cur, enum token_type *type)
     char *value = strndup(cur, len);
     if (value == NULL)
         lexer->status = LEXER_INVALID_TOKEN;
-    
+
     lexer->offset += *type == TOKEN_EOF ? 0 : len;
     return value;
 }
@@ -101,7 +101,7 @@ struct token *lexer_pop(struct lexer *lexer)
 
     if (!lexer->single_quote && *cur == '#')
         cur = skip_comment(lexer);
-    
+
     enum token_type type;
     char *value = lexer_read(lexer, cur, &type);
 
