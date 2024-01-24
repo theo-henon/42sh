@@ -1,9 +1,11 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+#include <stdbool.h>
+
 enum token_type
 {
-    TOKEN_EOF,
+    TOKEN_EOF = 0,
     TOKEN_EOL,
     TOKEN_SEMICOLON,
     TOKEN_WORD,
@@ -11,7 +13,9 @@ enum token_type
     TOKEN_FI,
     TOKEN_ELSE,
     TOKEN_THEN,
-    TOKEN_ELIF
+    TOKEN_ELIF,
+    TOKEN_SINGLEQUOTE,
+    TOKEN_BLANK
 };
 
 struct token
@@ -22,6 +26,9 @@ struct token
 
 struct token *token_create(enum token_type type, char *value);
 void token_free(struct token *token);
-void token_print(const struct token *token);
+enum token_type token_word_type(const char *token);
+bool token_islist_delim(const struct token *token);
+bool token_isclist_delim(const struct token *token);
+bool is_not_word(char c);
 
 #endif // TOKEN_H

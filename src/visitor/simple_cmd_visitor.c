@@ -1,0 +1,42 @@
+#include "simple_cmd_visitor.h"
+
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int simple_cmd_visit(struct visitor *visitor, struct simple_cmd *cmd)
+{
+    int builtin_index = builtins_find(visitor->builtins, cmd->args[0]);
+    if (builtin_index == -1)
+    {
+        errno = 0;
+        int pid = fork();
+        if (pid == -1)
+        {
+            perror("Cannot fork");
+            return 2;
+        }
+
+        if (pid == 0)
+        {
+            // Child process
+            errno = 0;
+            if (execvp(cmd->args[0], cmd->args) == -1)
+                perror("Failed to execute command");
+            exit(127);
+        }
+
+        // Parent process
+        int status;
+        if (waitpid(pid, &status, 0) == -1)
+        {
+            perror("Error waiting the child process");
+            return 2;
+        }
+        return WIFEXITED(status) ? WEXITSTATUS(status) : 2;
+    }
+    else
+        return visitor->builtins[builtin_index]->func(cmd->args);
+}

@@ -1,26 +1,69 @@
 #include "ast.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "if.h"
 #include "list.h"
 #include "simple_cmd.h"
 
-void free_base(struct base *base)
+struct ast *ast_create(struct base *root)
+{
+    struct ast *ast = calloc(1, sizeof(struct ast));
+    if (ast != NULL)
+        ast->root = root;
+    return ast;
+}
+
+void base_free(struct base *base)
 {
     switch (base->type)
     {
-    case SIMPLE_CMD:
-        free_simple_cmd((struct simple_cmd *)base);
-        break;
     case LIST:
-        free_list((struct list *)base);
+        list_free((struct list *)base);
+        break;
+    case AND_OR:
+        and_or_free((struct and_or *)base);
+        break;
+    case PIPELINE:
+        pipeline_free((struct pipeline *)base);
+        break;
+    case SIMPLE_CMD:
+        simple_cmd_free((struct simple_cmd *)base);
         break;
     case IF_CLAUSE:
-        free_if_clause((struct if_clause *)base);
+        if_clause_free((struct if_clause *)base);
         break;
     default:
-        fprintf(stderr, "Fail to free error type !\n");
         break;
+    }
+}
+
+void ast_free(struct ast *ast)
+{
+    if (ast == NULL)
+        return;
+    base_free(ast->root);
+    free(ast);
+}
+
+void base_print(const struct base *base)
+{
+    switch (base->type)
+    {
+    case LIST:
+        list_print((struct list *)base);
+        break;
+    case AND_OR:
+        and_or_print((struct and_or *)base);
+        break;
+    case PIPELINE:
+        pipeline_print((struct pipeline *)base);
+        break;
+    case SIMPLE_CMD:
+        simple_cmd_print((struct simple_cmd *)base);
+        break;
+    default:
+        return;
     }
 }

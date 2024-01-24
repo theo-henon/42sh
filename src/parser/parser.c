@@ -1,79 +1,40 @@
 #include "parser.h"
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-struct simple_cmd *parse_simple_cmd(struct lexer *lexer)
+#include "list_parser.h"
+#include "quotes_parser.h"
+
+struct parser *parser_create(struct lexer *lexer)
 {
-    int i = 0;
-    char **args = calloc(1, strlen(lexer->current->value));
-    strcpy(args[i], lexer->current->value);
-    lexer_pop(lexer);
-    while (lexer->current->type == TOKEN_WORD)
-    {
-        args = realloc(args, sizeof(args) + strlen(lexer->current->value));
-        i++;
-        strcpy(args[i], lexer->current->value);
-        lexer_pop(lexer);
-    }
-    args[i++] = NULL;
-    return create_simple_cmd(args);
+    struct parser *parser = calloc(1, sizeof(struct parser));
+    if (parser != NULL)
+        parser->lexer = lexer;
+    return parser;
 }
 
-struct list *parse_list(struct lexer *lexer)
+struct ast *parse_input(struct parser *parser)
 {
-    int j = 0;
-    struct simple_cmd *tmp = parse_simple_cmd(lexer);
-    struct simple_cmd **cmds = calloc(1, sizeof(*tmp));
-    cmds[j] = tmp;
-    // add token and, or & during the next step
-    while (lexer->current->type == TOKEN_SEMICOLON
-           || lexer->current->type == TOKEN_EOL)
-    {
-        tmp = parse_simple_cmd(lexer);
-        cmds = realloc(cmds, sizeof(cmds) + sizeof(*tmp));
-        j++;
-        cmds[j] = tmp;
-    }
-    cmds[j++] = NULL;
-    return create_list(cmds);
-}
-
-static struct if_clause *rec_if(struct lexer *lexer)
-{
-    lexer_pop(lexer); // consome if
-    struct list *condition = parse_list(lexer); // if_body
-    if (lexer->current->type != TOKEN_THEN)
-    {
-        fprintf(stderr, "Error parsing: Missing then ! \n");
+    struct token *token = lexer_pop(parser->lexer);
+    if (token == NULL)
         return NULL;
-    }
-    lexer_pop(lexer); // consume then
-    struct list *then_body = parse_list(lexer);
-    if (lexer->current->type != TOKEN_ELIF
-        && lexer->current->type != TOKEN_ELSE)
-    {
-        fprintf(stderr, "Error parsing: Missing elif or else! \n");
-        return NULL;
-    }
-    return create_if_clause((struct base *)condition, (struct base *)then_body,
-                            NULL);
-}
 
-struct if_clause *parse_if_clause(struct lexer *lexer)
-{
-    struct if_clause *tmp;
-    tmp = rec_if(lexer);
-    struct if_clause *head = tmp;
-    while (lexer->current->type == TOKEN_ELIF)
+    while (token->type == TOKEN_EOL)
+        token = lexer_pop(parser->lexer);
+
+    if (token->type == TOKEN_SINGLEQUOTE)
+        single_quotes_value(parser);
+    
+    struct ast *ast = NULL;
+    struct list *list = parse_list(parser);
+    if (list != NULL)
+        ast = ast_create((struct base *)list);
+
+    token = lexer_peek(parser->lexer);
+    if (token->type != TOKEN_EOL && token->type != TOKEN_EOF)
     {
-        tmp->else_body = (struct base *)rec_if(lexer);
-        tmp = (struct if_clause *)tmp->else_body;
+        ast_free(ast);
+        ast = NULL;
     }
-    if (lexer->current->type == TOKEN_ELSE)
-    {
-        tmp->else_body = (struct base *)parse_list(lexer);
-    }
-    return head;
+    return ast;
 }

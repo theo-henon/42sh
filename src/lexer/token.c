@@ -1,5 +1,6 @@
 #include "token.h"
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,34 +26,33 @@ void token_free(struct token *token)
     free(token);
 }
 
-static const char *token_to_string(const struct token *token)
+enum token_type token_word_type(const char *token)
 {
-    switch (token->type)
-    {
-    case TOKEN_EOF:
-        return "EOF";
-    case TOKEN_EOL:
-        return "EOL";
-    case TOKEN_SEMICOLON:
-        return ";";
-    case TOKEN_WORD:
-        return token->value;
-    case TOKEN_IF:
-        return "if";
-    case TOKEN_THEN:
-        return "then";
-    case TOKEN_FI:
-        return "fi";
-    case TOKEN_ELSE:
-        return "else";
-    default:
-        return NULL;
-    }
+    if (strcmp(token, "if") == 0)
+        return TOKEN_IF;
+    else if (strcmp(token, "fi") == 0)
+        return TOKEN_FI;
+    else if (strcmp(token, "else") == 0)
+        return TOKEN_ELSE;
+    else if (strcmp(token, "then") == 0)
+        return TOKEN_THEN;
+    else if (strcmp(token, "elif") == 0)
+        return TOKEN_ELIF;
+    else
+        return TOKEN_WORD;
 }
 
-void token_print(const struct token *token)
+bool token_islist_delim(const struct token *token)
 {
-    if (token == NULL)
-        return;
-    puts(token_to_string(token));
+    return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON;
+}
+
+bool token_isclist_delim(const struct token *token)
+{
+    return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON || token->type == TOKEN_EOL;
+}
+
+bool is_not_word(char c)
+{
+    return c == '\0' || c == '\n' || c == ';' || isblank(c) || c == '\'';
 }

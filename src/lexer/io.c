@@ -64,5 +64,7 @@ char *get_input_from_stdin(void)
         cur += readed;
     }
 
+    if (input == NULL && feof(stdin))
+        return calloc(1, sizeof(char));
     return input;
 }
