@@ -1,6 +1,6 @@
 bin_PROGRAMS = lexer_tests
 
-lexer_tests_SOURCES = token_tests.c lexer_tests.c
+lexer_tests_SOURCES = token_tests.c lexer_tests.c io_tests.c
 
 lexer_tests_CPPFLAGS = -I$(top_builddir)/src
 
