@@ -44,12 +44,14 @@ enum token_type token_word_type(const char *token)
 
 bool token_islist_delim(const struct token *token)
 {
+    // TODO add & token
     return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON;
 }
 
 bool token_isclist_delim(const struct token *token)
 {
-    return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON || token->type == TOKEN_EOL;
+    return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON
+        || token->type == TOKEN_EOL;
 }
 
 bool is_not_word(char c)

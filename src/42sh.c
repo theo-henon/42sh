@@ -25,21 +25,28 @@ int main(int argc, char *argv[])
     if (parser == NULL)
         return 2;
 
-    struct ast *ast = parse_input(parser);
-    if (ast == NULL)
-        return parser->status == PARSER_UNEXPECTED_TOKEN ? 2 : 0;
-
     struct visitor *visitor = visitor_init();
     if (visitor == NULL)
         return 2;
 
-    int code = base_visit(visitor, ast->root);
+    struct ast *ast = parse_input(parser);
+
+    int code = 0;
+
+    while (ast)
+    {
+        code = base_visit(visitor, ast->root);
+        ast_free(ast);
+        ast = parse_input(parser);
+    }
+
+    if (parser->status == PARSER_UNEXPECTED_TOKEN)
+        return 2;
 
     // Releases all memory
     free(res);
     lexer_free(lexer);
     free(parser);
-    ast_free(ast);
     visitor_free(visitor);
     return code;
 }

@@ -24,7 +24,7 @@ struct ast *parse_input(struct parser *parser)
 
     if (token->type == TOKEN_SINGLEQUOTE)
         single_quotes_value(parser);
-    
+
     struct ast *ast = NULL;
     struct list *list = parse_list(parser);
     if (list != NULL)
