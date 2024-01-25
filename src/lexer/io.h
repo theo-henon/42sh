@@ -18,11 +18,9 @@ struct input *input_from_file(const char *filename);
 struct input *input_from_stdin(void);
 struct input *input_from_string(char *input);
 int input_read(struct input *input);
+char input_getchar(struct input *input);
 char input_readchar(struct input *input);
 void input_free(struct input *input);
-
-char *io(int argc, char *argv[]);
-char *get_input_from_file(const char *filename);
-char *get_input_from_stdin(void);
+struct input *input_get(int argc, char *argv[]);
 
 #endif /* ! IO_H */
