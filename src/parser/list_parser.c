@@ -32,4 +32,38 @@ struct list *parse_list(struct parser *parser)
     return list;
 }
 
-struct list *parse_compound_list(struct parser *parser);
+struct list *parse_compound_list(struct parser *parser)
+{
+    struct token *token = lexer_pop(parser->lexer);
+    while (token->type == TOKEN_EOL)
+        token = lexer_pop(parser->lexer);
+    struct and_or *and_or = parse_and_or(parser);
+    if (!and_or)
+    {
+        and_or_free(and_or);
+        return NULL;
+    }
+    struct list *list = list_create(and_or);
+    int tmp;
+    while (token_isclist_delim(token))
+    {
+        tmp = token->type;
+        token = lexer_pop(parser->lexer);
+        and_or = parse_and_or(parser);
+        if (!and_or)
+        {
+            and_or_free(and_or);
+            break;
+        }
+        else
+        {
+            list_append(list, and_or, tmp);
+            token = lexer_pop(parser->lexer);
+        }
+        while (token->type == TOKEN_EOL)
+            token = lexer_pop(parser->lexer);
+    }
+    while (token->type == TOKEN_EOL)
+        token = lexer_pop(parser->lexer);
+    return list;
+}
