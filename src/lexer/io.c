@@ -81,8 +81,9 @@ char input_readchar(struct input *input)
 
 void input_free(struct input *input)
 {
-    if (input != NULL)
+    if (input == NULL)
         return;
+
     if (input->stream != NULL)
         fclose(input->stream);
     free(input);
