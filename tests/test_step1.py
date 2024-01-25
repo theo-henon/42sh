@@ -5,7 +5,7 @@ from shell_script import ShellScript
 from utils import assert_cmd
 
 scripts_dir = "./inputs/step1"
-scripts = [os.path.join(scripts_dir, f) for f in os.listdir(scripts_dir) if os.path.isfile(os.path.join(scripts_dir, f))]
+scripts = [os.path.join(scripts_dir, f) for f in os.listdir(scripts_dir) if os.path.isfile(os.path.join(scripts_dir, f)) and f.endswith('.sh')]
 
 @pytest.mark.parametrize('script', scripts)
 def test_script(script):
