@@ -13,7 +13,7 @@ static char *lexer_lex_word(struct lexer *lexer, char first)
     size_t len = 1;
     char *word = calloc(len, sizeof(char));
     word[len - 1] = first;
-    
+
     char c = input_readchar(lexer->input);
     while (!is_not_word(c))
     {
@@ -32,7 +32,7 @@ static char *lexer_lex_word(struct lexer *lexer, char first)
 static char lexer_skip_comment(struct lexer *lexer)
 {
     char c = input_readchar(lexer->input);
-    while (c != '\0' && c != '\n') 
+    while (c != '\0' && c != '\n')
         c = input_readchar(lexer->input);
     return c;
 }
@@ -40,7 +40,7 @@ static char lexer_skip_comment(struct lexer *lexer)
 static char lexer_skip_blanks(struct lexer *lexer)
 {
     char c = input_readchar(lexer->input);
-    while (isblank(c)) 
+    while (isblank(c))
         c = input_readchar(lexer->input);
     return c;
 }

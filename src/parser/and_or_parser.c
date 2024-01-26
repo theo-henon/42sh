@@ -1,7 +1,8 @@
 #include "and_or_parser.h"
 
-#include "pipeline_parser.h"
 #include <stddef.h>
+
+#include "pipeline_parser.h"
 
 struct and_or *parse_and_or(struct parser *parser)
 {
