@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "ast/simple_cmd.h"
+#include "if_parser.h"
 
 struct simple_cmd *parse_simple_cmd(struct parser *parser)
 {
