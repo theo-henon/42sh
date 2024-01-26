@@ -20,12 +20,6 @@ AC_CONFIG_FILES([
                     src/visitor/Makefile
                     src/utils/Makefile
                     tests/Makefile
-                    tests/unit/Makefile
-                    tests/unit/ast/Makefile
-                    tests/unit/builtins/Makefile
-                    tests/unit/lexer/Makefile
-                    tests/unit/parser/Makefile
-                    tests/unit/visitor/Makefile
                 ])
 
 AC_OUTPUT
