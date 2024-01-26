@@ -19,6 +19,7 @@ AC_CONFIG_FILES([
                     src/builtins/Makefile
                     src/visitor/Makefile
                     src/utils/Makefile
+                    src/expansion/Makefile
                     tests/Makefile
                 ])
 
