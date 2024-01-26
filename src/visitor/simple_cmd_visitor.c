@@ -26,7 +26,10 @@ int simple_cmd_visit(struct visitor *visitor, struct simple_cmd *cmd)
             // Child process
             errno = 0;
             if (execvp(cmd->args[0], cmd->args) == -1)
+            {
+                fprintf(stderr, "cmd == %s\n", cmd->args[0]);
                 perror("Failed to execute command");
+            }
             exit(127);
         }
 

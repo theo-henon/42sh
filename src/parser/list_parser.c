@@ -17,6 +17,8 @@ struct list *parse_list(struct parser *parser)
     {
         tmp = token->type;
         token = lexer_pop(parser->lexer);
+        if (token->type != TOKEN_WORD && !token_islist_delim(token))
+            break;
         and_or = parse_and_or(parser);
         if (!and_or)
         {
@@ -49,6 +51,8 @@ struct list *parse_compound_list(struct parser *parser)
     {
         tmp = token->type;
         token = lexer_pop(parser->lexer);
+        if (token->type != TOKEN_WORD && !token_isclist_delim(token))
+            break;
         and_or = parse_and_or(parser);
         if (!and_or)
         {

@@ -60,7 +60,7 @@ struct else_clause *parse_elif_clause(struct parser *parser)
 struct if_clause *parse_if_clause(struct parser *parser)
 {
     struct list *condition = parse_compound_list(parser);
-    struct token *token = lexer_peek(parser->lexer);
+    struct token *token = lexer_pop(parser->lexer);
 
     if (token->type != TOKEN_THEN || !condition)
     {
@@ -68,8 +68,8 @@ struct if_clause *parse_if_clause(struct parser *parser)
         list_free(condition);
         return NULL;
     }
-    token = lexer_pop(parser->lexer);
 
+    lexer_peek(parser->lexer);
     struct list *body = parse_compound_list(parser);
     token = lexer_peek(parser->lexer);
 
@@ -77,12 +77,14 @@ struct if_clause *parse_if_clause(struct parser *parser)
     {
         struct else_clause *else_clause =
             else_clause_create(NULL, parse_compound_list(parser));
+        token = lexer_peek(parser->lexer);
         if (token->type != TOKEN_FI)
         {
             parser->status = PARSER_UNEXPECTED_TOKEN;
             else_clause_free(else_clause);
             return NULL;
         }
+        token = lexer_pop(parser->lexer);
         return if_clause_create(condition, body, else_clause);
     }
     else if (token->type == TOKEN_ELIF)

@@ -131,6 +131,10 @@ struct token *lexer_pop(struct lexer *lexer)
     else
         lexer->current = token_create(type, strndup(&first, 1));
 
+    if (type == TOKEN_WORD)
+    {
+        token_set_type(lexer->current);
+    }
     string_free(value);
     return lexer->current;
 }
