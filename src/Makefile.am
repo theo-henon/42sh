@@ -1,4 +1,4 @@
-SUBDIRS = parser lexer utils visitor ast builtins
+SUBDIRS = parser lexer utils visitor ast builtins expansion
 
 bin_PROGRAMS = 42sh
 
@@ -14,4 +14,5 @@ bin_PROGRAMS = 42sh
        utils/libutils.a \
        visitor/libvisitor.a \
        ast/libast.a \
-       builtins/libbuiltins.a
+       builtins/libbuiltins.a \
+       expansion/libexpansion.a

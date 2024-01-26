@@ -7,9 +7,12 @@
 #include <unistd.h>
 
 #include "builtins/builtins.h"
+#include "expansion/simple_cmd_expansion.h"
 
 int simple_cmd_visit(struct visitor *visitor, struct simple_cmd *cmd)
 {
+    expand_simple_cmd(cmd);
+
     builtin_t builtin = builtins_find(cmd->args[0]);
     if (builtin == NULL)
     {
