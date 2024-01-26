@@ -6,10 +6,12 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "builtins/builtins.h"
+
 int simple_cmd_visit(struct visitor *visitor, struct simple_cmd *cmd)
 {
-    int builtin_index = builtins_find(visitor->builtins, cmd->args[0]);
-    if (builtin_index == -1)
+    builtin_t builtin = builtins_find(cmd->args[0]);
+    if (builtin == NULL)
     {
         errno = 0;
         int pid = fork();
@@ -38,5 +40,5 @@ int simple_cmd_visit(struct visitor *visitor, struct simple_cmd *cmd)
         return WIFEXITED(status) ? WEXITSTATUS(status) : 2;
     }
     else
-        return visitor->builtins[builtin_index]->func(cmd->args);
+        return builtin(cmd->args, visitor);
 }
