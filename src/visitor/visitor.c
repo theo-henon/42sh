@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "and_or_visitor.h"
+#include "if_visitor.h"
 #include "list_visitor.h"
 #include "pipeline_visitor.h"
 #include "simple_cmd_visitor.h"
@@ -20,6 +21,7 @@ struct visitor *visitor_init(void)
         visitor->and_or_visit = and_or_visit;
         visitor->pipeline_visit = pipeline_visit;
         visitor->simple_cmd_visit = simple_cmd_visit;
+        visitor->if_visit = if_visit;
     }
     else
         perror("Cannot create visitor");
@@ -44,6 +46,8 @@ int base_visit(struct visitor *visitor, struct base *base)
         return visitor->pipeline_visit(visitor, (struct pipeline *)base);
     case SIMPLE_CMD:
         return visitor->simple_cmd_visit(visitor, (struct simple_cmd *)base);
+    case IF_CLAUSE:
+        return visitor->if_visit(visitor, (struct if_clause *)base);
     default:
         return 2;
     }
