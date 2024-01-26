@@ -4,7 +4,7 @@
 
 #include "builtins.h"
 
-int builtin_cd(char **argv)
+int builtin_cd(char **argv, __attribute__((unused)) struct visitor *visitor)
 {
     if (argv[1] == NULL)
     {

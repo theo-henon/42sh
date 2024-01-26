@@ -25,5 +25,8 @@ struct simple_cmd *parse_simple_cmd(struct parser *parser)
 
 struct base *parse_cmd(struct parser *parser)
 {
+    struct token *token = lexer_peek(parser->lexer);
+    if (token->type == TOKEN_IF)
+        return (struct base *)parse_if_clause(parser);
     return (struct base *)parse_simple_cmd(parser);
 }

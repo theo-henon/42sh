@@ -43,7 +43,7 @@ void token_set_type(struct token *token)
 
 bool token_islist_delim(const struct token *token)
 {
-    // TODO add '&'' token
+    // TODO add & token
     return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON;
 }
 

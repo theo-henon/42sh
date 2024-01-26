@@ -3,10 +3,10 @@
 
 #include "ast/and_or.h"
 #include "ast/ast.h"
+#include "ast/if.h"
 #include "ast/list.h"
 #include "ast/pipeline.h"
 #include "ast/simple_cmd.h"
-#include "builtins/builtins.h"
 
 struct visitor
 {
@@ -15,7 +15,7 @@ struct visitor
     int (*and_or_visit)(struct visitor *visitor, struct and_or *and_or);
     int (*pipeline_visit)(struct visitor *visitor, struct pipeline *pipeline);
     int (*simple_cmd_visit)(struct visitor *visitor, struct simple_cmd *cmd);
-    struct builtin **builtins;
+    int (*if_visit)(struct visitor *visitor, struct if_clause *if_clause);
 };
 
 struct visitor *visitor_init(void);
