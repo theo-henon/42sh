@@ -18,6 +18,7 @@ AC_CONFIG_FILES([
                     src/parser/Makefile
                     src/builtins/Makefile
                     src/visitor/Makefile
+                    src/utils/Makefile
                     tests/Makefile
                     tests/unit/Makefile
                     tests/unit/ast/Makefile

@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "list_parser.h"
-#include "quotes_parser.h"
 
 struct parser *parser_create(struct lexer *lexer)
 {
@@ -21,9 +20,6 @@ struct ast *parse_input(struct parser *parser)
 
     while (token->type == TOKEN_EOL)
         token = lexer_pop(parser->lexer);
-
-    if (token->type == TOKEN_SINGLEQUOTE)
-        single_quotes_value(parser);
 
     struct ast *ast = NULL;
     struct list *list = parse_list(parser);

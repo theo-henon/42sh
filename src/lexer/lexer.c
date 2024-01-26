@@ -7,75 +7,74 @@
 #include <string.h>
 
 #include "token.h"
+#include "utils/strbuilder.h"
 
-static char *skip_blanks(struct lexer *lexer)
+static struct string *lexer_lex_squote(struct lexer *lexer, char first)
 {
-    char *cur = lexer_cursor(lexer);
-    while (isblank(*cur))
-    {
-        lexer->offset++;
-        cur++;
-    }
-    return cur;
-}
+    struct string *quoted = string_create();
+    string_catbuf(quoted, &first, 1);
 
-static char *skip_comment(struct lexer *lexer)
-{
-    char *cur = lexer_cursor(lexer);
-    while (*cur != '\0' && *cur != '\n')
+    char c = input_readchar(lexer->input);
+    while (c != '\0' && c != '\'')
     {
-        lexer->offset++;
-        cur++;
-    }
-    return cur;
-}
-
-static void wordlen(char *cur, size_t *len)
-{
-    while (!is_not_word(*cur))
-    {
-        *len += 1;
-        cur++;
-    }
-}
-
-static char *lexer_read(struct lexer *lexer, char *cur, enum token_type *type)
-{
-    size_t len = 1;
-    switch (*cur)
-    {
-    case '\0':
-        *type = TOKEN_EOF;
-        len = 0;
-        lexer->status = LEXER_END;
-        break;
-    case '\n':
-        *type = TOKEN_EOL;
-        break;
-    case ';':
-        *type = TOKEN_SEMICOLON;
-        break;
-    case '\'':
-        *type = TOKEN_SINGLEQUOTE;
-        break;
-    case ' ':
-    case '\t':
-        *type = TOKEN_BLANK;
-        break;
-    default:
-        *type = TOKEN_WORD;
-        wordlen(cur + 1, &len);
+        string_catbuf(quoted, &c, 1);
+        c = input_readchar(lexer->input);
     }
 
-    char *value = strndup(cur, len);
-    if (value == NULL)
-        lexer->status = LEXER_INVALID_TOKEN;
-
-    lexer->offset += *type == TOKEN_EOF ? 0 : len;
-    return value;
+    if (c == '\0')
+    {
+        lexer->status = LEXER_UNEXPECTED_EOF;
+        free(quoted);
+        return NULL;
+    }
+    return quoted;
 }
 
-struct lexer *lexer_create(char *input)
+static struct string *lexer_lex_word(struct lexer *lexer, char first)
+{
+    struct string *word = string_create();
+    string_catbuf(word, &first, 1);
+
+    char c = input_readchar(lexer->input);
+    while (!istoken(c) && !isblank(c))
+    {
+        if (c == '\'')
+        {
+            struct string *quoted = lexer_lex_squote(lexer, c);
+            if (quoted == NULL)
+            {
+                free(word);
+                return NULL;
+            }
+            string_catbuf(word, quoted->buf, quoted->size);
+            string_free(quoted);
+        }
+        else
+            string_catbuf(word, &c, 1);
+
+        c = input_readchar(lexer->input);
+    }
+    lexer->input->offset--;
+    return word;
+}
+
+static char lexer_skip_comment(struct lexer *lexer)
+{
+    char c = input_readchar(lexer->input);
+    while (c != '\0' && c != '\n')
+        c = input_readchar(lexer->input);
+    return c;
+}
+
+static char lexer_skip_blanks(struct lexer *lexer)
+{
+    char c = input_readchar(lexer->input);
+    while (isblank(c))
+        c = input_readchar(lexer->input);
+    return c;
+}
+
+struct lexer *lexer_create(struct input *input)
 {
     if (input == NULL)
         return NULL;
@@ -94,31 +93,51 @@ struct token *lexer_pop(struct lexer *lexer)
     token_free(lexer->current);
     lexer->current = NULL;
 
-    if (!lexer->single_quote)
-        skip_blanks(lexer);
-
-    char *cur = lexer_cursor(lexer);
-
-    if (!lexer->single_quote && *cur == '#')
-        cur = skip_comment(lexer);
-
     enum token_type type;
-    char *value = lexer_read(lexer, cur, &type);
+    struct string *value = NULL;
+    char first = input_readchar(lexer->input);
 
-    if (type == TOKEN_WORD)
-        type = token_word_type(value);
-    lexer->current = token_create(type, value);
+    if (first == '#')
+        first = lexer_skip_comment(lexer);
+    if (isblank(first))
+        first = lexer_skip_blanks(lexer);
+
+    switch (first)
+    {
+    case '\0':
+        type = TOKEN_EOF;
+        break;
+    case '\n':
+        type = TOKEN_EOL;
+        break;
+    case ';':
+        type = TOKEN_SEMICOLON;
+        break;
+    case '\'':
+        type = TOKEN_WORD;
+        value = lexer_lex_squote(lexer, first);
+        break;
+    default:
+        type = TOKEN_WORD;
+        value = lexer_lex_word(lexer, first);
+        break;
+    }
+
+    if (lexer->status == LEXER_UNEXPECTED_EOF)
+        return NULL;
+
+    if (value != NULL)
+        lexer->current = token_create(type, string_tobuf(value));
+    else
+        lexer->current = token_create(type, strndup(&first, 1));
+
+    string_free(value);
     return lexer->current;
 }
 
 struct token *lexer_peek(struct lexer *lexer)
 {
     return lexer->current;
-}
-
-char *lexer_cursor(struct lexer *lexer)
-{
-    return lexer->input + lexer->offset;
 }
 
 void lexer_free(struct lexer *lexer)

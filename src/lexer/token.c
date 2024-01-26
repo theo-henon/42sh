@@ -1,6 +1,5 @@
 #include "token.h"
 
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,20 +25,20 @@ void token_free(struct token *token)
     free(token);
 }
 
-enum token_type token_word_type(const char *token)
+void token_set_type(struct token *token)
 {
-    if (strcmp(token, "if") == 0)
-        return TOKEN_IF;
-    else if (strcmp(token, "fi") == 0)
-        return TOKEN_FI;
-    else if (strcmp(token, "else") == 0)
-        return TOKEN_ELSE;
-    else if (strcmp(token, "then") == 0)
-        return TOKEN_THEN;
-    else if (strcmp(token, "elif") == 0)
-        return TOKEN_ELIF;
+    if (strcmp(token->value, "if") == 0)
+        token->type = TOKEN_IF;
+    else if (strcmp(token->value, "fi") == 0)
+        token->type = TOKEN_FI;
+    else if (strcmp(token->value, "else") == 0)
+        token->type = TOKEN_ELSE;
+    else if (strcmp(token->value, "then") == 0)
+        token->type = TOKEN_THEN;
+    else if (strcmp(token->value, "elif") == 0)
+        token->type = TOKEN_ELIF;
     else
-        return TOKEN_WORD;
+        token->type = TOKEN_WORD;
 }
 
 bool token_islist_delim(const struct token *token)
@@ -54,7 +53,7 @@ bool token_isclist_delim(const struct token *token)
         || token->type == TOKEN_EOL;
 }
 
-bool is_not_word(char c)
+bool istoken(char c)
 {
-    return c == '\0' || c == '\n' || c == ';' || isblank(c) || c == '\'';
+    return c == '\0' || c == '\n' || c == ';';
 }
