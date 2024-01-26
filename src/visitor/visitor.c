@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "and_or_visitor.h"
+#include "if_visitor.h"
 #include "list_visitor.h"
 #include "pipeline_visitor.h"
 #include "simple_cmd_visitor.h"
@@ -20,6 +21,7 @@ struct visitor *visitor_init(void)
         visitor->and_or_visit = and_or_visit;
         visitor->pipeline_visit = pipeline_visit;
         visitor->simple_cmd_visit = simple_cmd_visit;
+        visitor->if_visit = if_visit;
         visitor->builtins = builtins_load();
     }
     else

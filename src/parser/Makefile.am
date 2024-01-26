@@ -7,7 +7,8 @@ libparser_a_SOURCES =  \
 	list_parser.c list_parser.h \
 	parser.c parser.h \
 	pipeline_parser.c pipeline_parser.h \
-	quotes_parser.c quotes_parser.h
+	quotes_parser.c quotes_parser.h \
+	if_parser.c if_parser.h
 
 libparser_a_CPPFLAGS = -I$(top_srcdir)/src -D_POSIX_C_SOURCE=202401L
 
