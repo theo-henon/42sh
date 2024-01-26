@@ -1,6 +1,5 @@
 #include "token.h"
 
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,7 +43,7 @@ void token_set_type(struct token *token)
 
 bool token_islist_delim(const struct token *token)
 {
-    // TODO add & token
+    // TODO add '&'' token
     return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON;
 }
 
@@ -54,7 +53,7 @@ bool token_isclist_delim(const struct token *token)
         || token->type == TOKEN_EOL;
 }
 
-bool is_not_word(char c)
+bool istoken(char c)
 {
-    return c == '\0' || c == '\n' || c == ';' || isblank(c) || c == '\'';
+    return c == '\0' || c == '\n' || c == ';';
 }
