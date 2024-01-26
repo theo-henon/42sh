@@ -48,6 +48,8 @@ int base_visit(struct visitor *visitor, struct base *base)
         return visitor->pipeline_visit(visitor, (struct pipeline *)base);
     case SIMPLE_CMD:
         return visitor->simple_cmd_visit(visitor, (struct simple_cmd *)base);
+    case IF_CLAUSE:
+        return visitor->if_visit(visitor, (struct if_clause *)base);
     default:
         return 2;
     }
