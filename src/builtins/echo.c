@@ -73,6 +73,7 @@ int flags_parsing(char *argv[], int *line_feed, int *interpret)
     *line_feed = 1;
     *interpret = 0;
     int is_valide = 1;
+    optind = 0;
     while ((opt = getopt(argc, argv, "neE")) != -1)
     {
         switch (opt)
@@ -115,8 +116,8 @@ int builtin_echo(char **argv, __attribute__((unused)) struct visitor *visitor)
             echo_n_flag(argv, index);
         else
         {
-           echo_n_flag(argv, index);
-           putchar('\n');
+            echo_n_flag(argv, index);
+            putchar('\n');
         }
     }
     return 0;
