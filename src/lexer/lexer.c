@@ -33,7 +33,19 @@ static struct string *lexer_lex_squote(struct lexer *lexer, char first)
 static struct string *lexer_lex_word(struct lexer *lexer, char first)
 {
     struct string *word = string_create();
-    string_catbuf(word, &first, 1);
+    if (first == '\'')
+    {
+        struct string *quoted = lexer_lex_squote(lexer, first);
+        if (quoted == NULL)
+        {
+            free(word);
+            return NULL;
+        }
+        string_catbuf(word, quoted->buf, quoted->size);
+        string_free(quoted);
+    }
+    else
+        string_catbuf(word, &first, 1);
 
     char c = input_readchar(lexer->input);
     while (!istoken(c) && !isblank(c))
@@ -112,10 +124,6 @@ struct token *lexer_pop(struct lexer *lexer)
         break;
     case ';':
         type = TOKEN_SEMICOLON;
-        break;
-    case '\'':
-        type = TOKEN_WORD;
-        value = lexer_lex_squote(lexer, first);
         break;
     default:
         type = TOKEN_WORD;
