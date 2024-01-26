@@ -7,7 +7,6 @@ struct token *parse_single_quotes(struct parser *parser)
 {
     char *quotes = NULL;
     size_t size = 0;
-    parser->lexer->single_quote = true;
     struct token *token = lexer_pop(parser->lexer);
     while (token->type != TOKEN_EOF && token->type != TOKEN_SINGLEQUOTE)
     {
@@ -26,7 +25,6 @@ struct token *parse_single_quotes(struct parser *parser)
         return NULL;
     }
 
-    parser->lexer->single_quote = false;
     return token_create(TOKEN_WORD,
                         size == 0 ? calloc(1, sizeof(char)) : quotes);
 }

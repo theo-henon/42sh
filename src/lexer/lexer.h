@@ -11,7 +11,8 @@ enum lexer_status
 {
     LEXER_OK,
     LEXER_END,
-    LEXER_INVALID_TOKEN
+    LEXER_INVALID_TOKEN,
+    LEXER_UNEXPECTED_EOF
 };
 
 struct lexer
@@ -19,7 +20,6 @@ struct lexer
     struct input *input;
     enum lexer_status status;
     struct token *current;
-    bool single_quote;
 };
 
 struct lexer *lexer_create(struct input *input);

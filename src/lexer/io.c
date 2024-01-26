@@ -61,16 +61,15 @@ int input_read(struct input *input)
         fread(input->buf, sizeof(char), INPUT_BUF_SIZE, input->stream);
     if (input->readed == 0)
     {
-        fputs("Cannot read input\n", stderr);
-        return ferror(input->stream) != 0 ? -1 : 1;
+        if (ferror(input->stream))
+        {
+            fputs("Cannot read input\n", stderr);
+            return -1;
+        }
+        return 1;
     }
     input->offset = 0;
     return 0;
-}
-
-char input_getchar(struct input *input)
-{
-    return input->buf[input->offset];
 }
 
 char input_readchar(struct input *input)
