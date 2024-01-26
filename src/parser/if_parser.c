@@ -89,6 +89,11 @@ struct if_clause *parse_if_clause(struct parser *parser)
     {
         return if_clause_create(condition, body, parse_elif_clause(parser));
     }
+    else if (token->type == TOKEN_FI)
+    {
+        token = lexer_pop(parser->lexer);
+        return if_clause_create(condition, body, NULL);
+    }
     else
     {
         parser->status = PARSER_UNEXPECTED_TOKEN;
