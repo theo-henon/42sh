@@ -22,7 +22,6 @@ struct visitor *visitor_init(void)
         visitor->pipeline_visit = pipeline_visit;
         visitor->simple_cmd_visit = simple_cmd_visit;
         visitor->if_visit = if_visit;
-        visitor->builtins = builtins_load();
     }
     else
         perror("Cannot create visitor");
@@ -32,10 +31,7 @@ struct visitor *visitor_init(void)
 void visitor_free(struct visitor *visitor)
 {
     if (visitor != NULL)
-    {
-        builtins_free(visitor->builtins);
         free(visitor);
-    }
 }
 
 int base_visit(struct visitor *visitor, struct base *base)

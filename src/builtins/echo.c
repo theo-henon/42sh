@@ -97,7 +97,7 @@ int flags_parsing(char *argv[], int *line_feed, int *interpret)
     return optind;
 }
 
-int builtin_echo(char **argv)
+int builtin_echo(char **argv, __attribute__((unused)) struct visitor *visitor)
 {
     int line_feed;
     int interpret;
