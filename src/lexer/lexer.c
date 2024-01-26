@@ -7,18 +7,17 @@
 #include <string.h>
 
 #include "token.h"
+#include "utils/strbuilder.h"
 
-static char *lexer_lex_squote(struct lexer *lexer, char first)
+static struct string *lexer_lex_squote(struct lexer *lexer, char first)
 {
-    size_t len = 1;
-    char *quoted = calloc(len, sizeof(char));
-    quoted[len - 1] = first;
+    struct string *quoted = string_create();
+    string_catbuf(quoted, &first, 1);
+
     char c = input_readchar(lexer->input);
     while (c != '\0' && c != '\'')
     {
-        len++;
-        quoted = realloc(quoted, len * sizeof(char));
-        quoted[len - 1] = c;
+        string_catbuf(quoted, &c, 1);
         c = input_readchar(lexer->input);
     }
 
@@ -28,44 +27,34 @@ static char *lexer_lex_squote(struct lexer *lexer, char first)
         free(quoted);
         return NULL;
     }
-    len += 2;
-    quoted = realloc(quoted, len * sizeof(char));
-    quoted[len - 2] = c;
-    quoted[len - 1] = '\0';
     return quoted;
 }
 
-static char *lexer_lex_word(struct lexer *lexer, char first)
+static struct string *lexer_lex_word(struct lexer *lexer, char first)
 {
-    size_t len = 1;
-    char *word = calloc(len, sizeof(char));
-    word[len - 1] = first;
+    struct string *word = string_create();
+    string_catbuf(word, &first, 1);
 
     char c = input_readchar(lexer->input);
     while (!istoken(c) && !isblank(c))
     {
         if (c == '\'')
         {
-            char *quoted = lexer_lex_squote(lexer, c);
+            struct string *quoted = lexer_lex_squote(lexer, c);
             if (quoted == NULL)
             {
                 free(word);
                 return NULL;
             }
-            size_t quoted_len = strlen(quoted);
-            len += quoted_len;
-            word = realloc(word, len * sizeof(char));
-            strncpy(word + len, quoted, quoted_len);
+            string_catbuf(word, quoted->buf, quoted->size);
+            string_free(quoted);
         }
-        len++;
-        word = realloc(word, len * sizeof(char));
-        word[len - 1] = c;
+        else
+            string_catbuf(word, &c, 1);
+
         c = input_readchar(lexer->input);
     }
-
-    len++;
-    word = realloc(word, len * sizeof(char));
-    word[len - 1] = '\0';
+    lexer->input->offset--;
     return word;
 }
 
@@ -105,7 +94,7 @@ struct token *lexer_pop(struct lexer *lexer)
     lexer->current = NULL;
 
     enum token_type type;
-    char *value = NULL;
+    struct string *value = NULL;
     char first = input_readchar(lexer->input);
 
     if (first == '#')
@@ -138,10 +127,11 @@ struct token *lexer_pop(struct lexer *lexer)
         return NULL;
 
     if (value != NULL)
-        lexer->current = token_create(type, value);
+        lexer->current = token_create(type, string_tobuf(value));
     else
         lexer->current = token_create(type, strndup(&first, 1));
 
+    string_free(value);
     return lexer->current;
 }
 

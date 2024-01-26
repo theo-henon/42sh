@@ -27,6 +27,7 @@ void string_catbuf(struct string *str, const char *buf, size_t n)
     }
 
     strncpy(str->buf + str->size, buf, n);
+    str->size = new_size;
 }
 
 char *string_tobuf(const struct string *str)
