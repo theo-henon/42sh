@@ -47,6 +47,7 @@ struct list *parse_compound_list(struct parser *parser)
     }
     struct list *list = list_create(and_or);
     int tmp;
+    token = lexer_peek(parser->lexer);
     while (token_isclist_delim(token))
     {
         tmp = token->type;

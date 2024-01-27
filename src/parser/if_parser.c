@@ -62,6 +62,9 @@ struct if_clause *parse_if_clause(struct parser *parser)
     struct list *condition = parse_compound_list(parser);
     struct token *token = lexer_pop(parser->lexer);
 
+    while (token->type == TOKEN_EOL)
+        token = lexer_pop(parser->lexer);
+
     if (token->type != TOKEN_THEN || !condition)
     {
         parser->status = PARSER_UNEXPECTED_TOKEN;
@@ -72,6 +75,9 @@ struct if_clause *parse_if_clause(struct parser *parser)
     lexer_peek(parser->lexer);
     struct list *body = parse_compound_list(parser);
     token = lexer_peek(parser->lexer);
+
+    while (token->type == TOKEN_EOL)
+        token = lexer_pop(parser->lexer);
 
     if (token->type == TOKEN_ELSE && body != NULL)
     {
