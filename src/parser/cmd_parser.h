@@ -52,7 +52,8 @@ struct simple_cmd *parse_simple_cmd(struct parser *parser);
 **      | rule_if
 **      ;
 ** \endcode
-** Must peek a token using 'lexer_peek' and call the corresponding 'command' node parser.
+** Must peek a token using 'lexer_peek' and call the corresponding 'command'
+*node parser.
 **
 ** \see SCL grammar rules: http://tinyurl.com/2wc4jera
 **

@@ -122,4 +122,3 @@ int builtin_echo(char **argv, __attribute__((unused)) struct visitor *visitor)
     }
     return 0;
 }
-

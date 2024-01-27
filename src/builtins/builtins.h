@@ -18,9 +18,6 @@ int builtin_exit(char **argv, struct visitor *visitor);
 int builtin_echo(char **argv, struct visitor *visitor);
 int builtin_true(char **argv, struct visitor *visitor);
 int builtin_false(char **argv, struct visitor *visitor);
-builtin_t builtins_find( const char *name);
+builtin_t builtins_find(const char *name);
 
-
-
-#endif // BUILTINS_H
-
+#endif /* ! BUILTINS_H */

@@ -6,4 +6,4 @@
 
 int if_visit(struct visitor *visitor, struct if_clause *if_clause);
 
-#endif /* IF_VISITOR_H A */
+#endif /* ! IF_VISITOR_H */

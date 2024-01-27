@@ -3,14 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-static struct builtin builtins[BUILTIN_COUNT] =
-{
-    {.name = "echo", .func = builtin_echo},
-    {.name = "cd", .func = builtin_cd},
-    {.name = "false", .func = builtin_false},
-    {.name = "true", .func = builtin_true},
-    {.name = "exit", .func = builtin_exit}
+static struct builtin builtins[BUILTIN_COUNT] = {
+    { .name = "echo", .func = builtin_echo },
+    { .name = "cd", .func = builtin_cd },
+    { .name = "false", .func = builtin_false },
+    { .name = "true", .func = builtin_true },
+    { .name = "exit", .func = builtin_exit }
 };
 
 builtin_t builtins_find(const char *name)

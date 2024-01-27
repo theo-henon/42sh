@@ -6,4 +6,4 @@
 
 int pipeline_visit(struct visitor *visitor, struct pipeline *pipeline);
 
-#endif // PIPELINE_VISITOR
+#endif // PIPELINE_VISITOR_H
