@@ -18,7 +18,8 @@ struct string *single_quote_lex(struct lexer *lexer, char first)
     if (c == '\0')
     {
         lexer->status = LEXER_UNEXPECTED_EOF;
-        free(quoted);
+        string_free(quoted);
+        fputs("Unexpected EOF while looking for matching \"'\".\n", stderr);
         return NULL;
     }
     return quoted;
@@ -31,7 +32,7 @@ int word_append(struct lexer *lexer, struct string *word, char c)
         struct string *quoted = single_quote_lex(lexer, c);
         if (quoted == NULL)
         {
-            free(word);
+            string_free(word);
             return 1;
         }
         string_catbuf(word, quoted->buf, quoted->size);
@@ -45,12 +46,14 @@ int word_append(struct lexer *lexer, struct string *word, char c)
 struct string *word_lex(struct lexer *lexer, char first)
 {
     struct string *word = string_create();
-    word_append(lexer, word, first);
+    if (word_append(lexer, word, first) == 1)
+        return NULL;
 
     char c = input_readchar(lexer->input);
     while (!istoken(c) && !isblank(c))
     {
-        word_append(lexer, word, c);
+        if (word_append(lexer, word, c) == 1)
+            return NULL;
         c = input_readchar(lexer->input);
     }
     lexer->input->offset--;
