@@ -19,6 +19,7 @@ struct string *single_quote_lex(struct lexer *lexer, char first)
     {
         lexer->status = LEXER_UNEXPECTED_EOF;
         string_free(quoted);
+        fputs("Unexpected EOF while looking for matching \"'\".\n", stderr);
         return NULL;
     }
     return quoted;
