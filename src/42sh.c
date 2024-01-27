@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     }
 
     if (parser->status == PARSER_UNEXPECTED_TOKEN)
-        return 2;
+        code = 2;
 
     input_free(input);
     lexer_free(lexer);
