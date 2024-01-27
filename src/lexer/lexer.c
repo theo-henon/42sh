@@ -8,60 +8,7 @@
 
 #include "token.h"
 #include "utils/strbuilder.h"
-
-static struct string *lexer_lex_squote(struct lexer *lexer, char first)
-{
-    struct string *quoted = string_create();
-    string_catbuf(quoted, &first, 1);
-
-    char c = input_readchar(lexer->input);
-    while (c != '\0' && c != '\'')
-    {
-        string_catbuf(quoted, &c, 1);
-        c = input_readchar(lexer->input);
-    }
-
-    if (c == '\0')
-    {
-        lexer->status = LEXER_UNEXPECTED_EOF;
-        free(quoted);
-        return NULL;
-    }
-    return quoted;
-}
-
-static int lexer_word_cat(struct lexer *lexer, struct string *word, char first)
-{
-    if (first == '\'')
-    {
-        struct string *quoted = lexer_lex_squote(lexer, first);
-        if (quoted == NULL)
-        {
-            free(word);
-            return 1;
-        }
-        string_catbuf(word, quoted->buf, quoted->size);
-        string_free(quoted);
-    }
-    else
-        string_catbuf(word, &first, 1);
-    return 0;
-}
-
-static struct string *lexer_lex_word(struct lexer *lexer, char first)
-{
-    struct string *word = string_create();
-    lexer_word_cat(lexer, word, first);
-
-    char c = input_readchar(lexer->input);
-    while (!istoken(c) && !isblank(c))
-    {
-        lexer_word_cat(lexer, word, c);
-        c = input_readchar(lexer->input);
-    }
-    lexer->input->offset--;
-    return word;
-}
+#include "word.h"
 
 static char lexer_skip_comment(struct lexer *lexer)
 {
@@ -120,7 +67,7 @@ struct token *lexer_pop(struct lexer *lexer)
         break;
     default:
         type = TOKEN_WORD;
-        value = lexer_lex_word(lexer, first);
+        value = word_lex(lexer, first);
         break;
     }
 
