@@ -16,10 +16,16 @@ struct simple_cmd *parse_simple_cmd(struct parser *parser)
         token = lexer_pop(parser->lexer);
     }
 
-    if (cmd->args == NULL)
+    if (parser->lexer->status == LEXER_UNEXPECTED_EOF)
+    {
+        parser->status = PARSER_UNEXPECTED_TOKEN;
+        simple_cmd_free(cmd);
+        cmd = NULL;
+    }
+    else if (cmd->args == NULL)
     {
         simple_cmd_free(cmd);
-        return NULL;
+        cmd = NULL;
     }
     return cmd;
 }
