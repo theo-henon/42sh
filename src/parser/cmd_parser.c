@@ -18,7 +18,7 @@ struct simple_cmd *parse_simple_cmd(struct parser *parser)
 
     if (cmd->args == NULL)
     {
-        free(cmd);
+        simple_cmd_free(cmd);
         return NULL;
     }
     return cmd;

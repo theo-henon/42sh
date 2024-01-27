@@ -45,11 +45,12 @@ void simple_cmd_print(const struct simple_cmd *cmd)
 
 void simple_cmd_free(struct simple_cmd *cmd)
 {
-    if (cmd == NULL || cmd->args == NULL)
+    if (cmd == NULL)
         return;
 
-    for (int i = 0; i < cmd->argc; i++)
-        free(cmd->args[i]);
+    if (cmd->args != NULL)
+        for (int i = 0; i < cmd->argc; i++)
+            free(cmd->args[i]);
     free(cmd->args);
     free(cmd);
 }
