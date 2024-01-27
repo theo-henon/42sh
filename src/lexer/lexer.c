@@ -30,40 +30,33 @@ static struct string *lexer_lex_squote(struct lexer *lexer, char first)
     return quoted;
 }
 
-static struct string *lexer_lex_word(struct lexer *lexer, char first)
+static int lexer_word_cat(struct lexer *lexer, struct string *word, char first)
 {
-    struct string *word = string_create();
     if (first == '\'')
     {
         struct string *quoted = lexer_lex_squote(lexer, first);
         if (quoted == NULL)
         {
             free(word);
-            return NULL;
+            return 1;
         }
         string_catbuf(word, quoted->buf, quoted->size);
         string_free(quoted);
     }
     else
         string_catbuf(word, &first, 1);
+    return 0;
+}
+
+static struct string *lexer_lex_word(struct lexer *lexer, char first)
+{
+    struct string *word = string_create();
+    lexer_word_cat(lexer, word, first);
 
     char c = input_readchar(lexer->input);
     while (!istoken(c) && !isblank(c))
     {
-        if (c == '\'')
-        {
-            struct string *quoted = lexer_lex_squote(lexer, c);
-            if (quoted == NULL)
-            {
-                free(word);
-                return NULL;
-            }
-            string_catbuf(word, quoted->buf, quoted->size);
-            string_free(quoted);
-        }
-        else
-            string_catbuf(word, &c, 1);
-
+        lexer_word_cat(lexer, word, c);
         c = input_readchar(lexer->input);
     }
     lexer->input->offset--;
