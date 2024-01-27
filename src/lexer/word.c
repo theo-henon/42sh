@@ -18,7 +18,7 @@ struct string *single_quote_lex(struct lexer *lexer, char first)
     if (c == '\0')
     {
         lexer->status = LEXER_UNEXPECTED_EOF;
-        free(quoted);
+        string_free(quoted);
         return NULL;
     }
     return quoted;

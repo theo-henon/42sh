@@ -72,7 +72,7 @@ struct token *lexer_pop(struct lexer *lexer)
     }
 
     if (lexer->status == LEXER_UNEXPECTED_EOF)
-        return NULL;
+        type = TOKEN_EOF;
 
     if (value != NULL)
         lexer->current = token_create(type, string_tobuf(value));
@@ -80,9 +80,7 @@ struct token *lexer_pop(struct lexer *lexer)
         lexer->current = token_create(type, strndup(&first, 1));
 
     if (type == TOKEN_WORD)
-    {
         token_set_type(lexer->current);
-    }
     string_free(value);
     return lexer->current;
 }
