@@ -7,15 +7,16 @@
 #include "lexer/io.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "utils/options.h"
 #include "visitor/visitor.h"
 
 int main(int argc, char *argv[])
 {
-    struct input *input = input_get(argc, argv);
-    if (input == NULL)
+    struct options options = { 0 };
+    if (options_parse(argc, argv, &options) == -1)
         return 2;
 
-    struct lexer *lexer = lexer_create(input);
+    struct lexer *lexer = lexer_create(options.input);
     struct parser *parser = parser_create(lexer);
     struct visitor *visitor = visitor_init();
     struct ast *ast = parse_input(parser);
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
     if (parser->status == PARSER_UNEXPECTED_TOKEN)
         code = 2;
 
-    input_free(input);
+    input_free(options.input);
     lexer_free(lexer);
     free(parser);
     visitor_free(visitor);

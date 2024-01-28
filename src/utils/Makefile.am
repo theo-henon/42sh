@@ -1,7 +1,8 @@
 lib_LIBRARIES = libutils.a
 
 libutils_a_SOURCES =  \
-	strbuilder.c strbuilder.h
+	strbuilder.c strbuilder.h \
+	options.c options.h
 
 libutils_a_CPPFLAGS = -I$(top_srcdir)/src -D_POSIX_C_SOURCE=202401L
 
