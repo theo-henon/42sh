@@ -24,7 +24,10 @@ int main(int argc, char *argv[])
     int code = 0;
     while (ast)
     {
-        code = base_visit(visitor, ast->root);
+        if (options.pretty_print)
+            base_print(ast->root);
+        else
+            code = base_visit(visitor, ast->root);
         ast_free(ast);
         ast = parse_input(parser);
     }
