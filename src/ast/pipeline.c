@@ -28,14 +28,21 @@ void pipeline_print(const struct pipeline *pipeline)
 {
     const struct pipeline *tmp = pipeline;
     if (tmp->negate)
+    {
         printf("! ");
+        fflush(stdout);
+    }
     while (tmp != NULL)
     {
         base_print(tmp->cmd);
         if (tmp->next != NULL)
+        {
             printf(" | ");
+            fflush(stdout);
+        }
+        tmp = tmp->next;
     }
-    printf("\n");
+    fflush(stdout);
 }
 
 void pipeline_free(struct pipeline *pipeline)

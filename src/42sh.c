@@ -25,7 +25,11 @@ int main(int argc, char *argv[])
     while (ast)
     {
         if (options.pretty_print)
+        {
             base_print(ast->root);
+            putchar('\n');
+            fflush(stdout);
+        }
         else
             code = base_visit(visitor, ast->root);
         ast_free(ast);
