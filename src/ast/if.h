@@ -106,6 +106,7 @@ struct else_clause *else_clause_create(struct list *condition,
 void else_clause_append(struct else_clause *else_clause, struct list *condition,
                         struct list *body);
 
+#ifdef PRETTY_PRINT
 /**
 ** \brief Print whole list of 'else_clause' nodes.
 **
@@ -118,6 +119,7 @@ void else_clause_append(struct else_clause *else_clause, struct list *condition,
 ** Must not be NULL.
 */
 void else_clause_print(const struct else_clause *else_clause);
+#endif // PRETTY_PRINT
 
 /**
 ** \brief Release all memory held by the provided list of 'else_clause' nodes.
@@ -145,6 +147,7 @@ void else_clause_free(struct else_clause *else_clause);
 struct if_clause *if_clause_create(struct list *condition, struct list *body,
                                    struct else_clause *else_clauses);
 
+#ifdef PRETTY_PRINT
 /**
 ** \brief Print an 'if_clause' node.
 **
@@ -156,6 +159,7 @@ struct if_clause *if_clause_create(struct list *condition, struct list *body,
 ** \param if_clause A pointer to an 'if_clause' node. Must not be NULL.
 */
 void if_clause_print(const struct if_clause *if_clause);
+#endif // PRETTY_PRINT
 
 /**
  * @brief Release all memory held by an 'if_clause' node.

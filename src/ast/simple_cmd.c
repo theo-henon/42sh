@@ -33,6 +33,7 @@ void simple_cmd_addarg(struct simple_cmd *cmd, char *arg)
     }
 }
 
+#ifdef PRETTY_PRINT
 void simple_cmd_print(const struct simple_cmd *cmd)
 {
     for (int i = 0; i < cmd->argc - 1; i++)
@@ -47,6 +48,7 @@ void simple_cmd_print(const struct simple_cmd *cmd)
     }
     fflush(stdout);
 }
+#endif // PRETTY_PRINT
 
 void simple_cmd_free(struct simple_cmd *cmd)
 {

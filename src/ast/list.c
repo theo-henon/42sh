@@ -27,6 +27,7 @@ void list_append(struct list *list, struct and_or *and_or,
     tmp->next = node;
 }
 
+#ifdef PRETTY_PRINT
 void list_print(const struct list *list)
 {
     while (list != NULL)
@@ -41,6 +42,7 @@ void list_print(const struct list *list)
     }
     fflush(stdout);
 }
+#endif // PRETTY_PRINT
 
 void list_free(struct list *list)
 {

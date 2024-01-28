@@ -22,11 +22,13 @@ struct and_or *and_or_create_operator(enum token_type operator)
     return new_and_or;
 }
 
+#ifdef PRETTY_PRINT
 void and_or_print(const struct and_or *and_or)
 {
     pipeline_print(and_or->pipeline);
     fflush(stdout);
 }
+#endif // PRETTY_PRINT
 
 void and_or_free(struct and_or *and_or)
 {

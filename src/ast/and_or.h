@@ -72,6 +72,7 @@ struct and_or *and_or_create_pipeline(struct pipeline *pipeline);
 */
 struct and_or *and_or_create_operator(enum token_type operator);
 
+#ifdef PRETTY_PRINT
 /**
 ** \brief Print the entire 'and_or' binary tree using an in-order traversal.
 **
@@ -83,6 +84,7 @@ struct and_or *and_or_create_operator(enum token_type operator);
 ** \param and_or A pointer to the 'and_or' node you want to print
 */
 void and_or_print(const struct and_or *and_or);
+#endif // PRETTY_PRINT
 
 /**
 ** \brief Release all memory held by the 'and_or' binary tree.

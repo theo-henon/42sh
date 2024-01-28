@@ -47,6 +47,7 @@ void ast_free(struct ast *ast)
     free(ast);
 }
 
+#ifdef PRETTY_PRINT
 void base_print(const struct base *base)
 {
     switch (base->type)
@@ -67,3 +68,4 @@ void base_print(const struct base *base)
         return;
     }
 }
+#endif // PRETTY_PRINT

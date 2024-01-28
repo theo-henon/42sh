@@ -24,6 +24,7 @@ void pipeline_append(struct pipeline *pipeline, struct base *cmd)
     tmp->next = new_pipeline;
 }
 
+#ifdef PRETTY_PRINT
 void pipeline_print(const struct pipeline *pipeline)
 {
     const struct pipeline *tmp = pipeline;
@@ -44,6 +45,7 @@ void pipeline_print(const struct pipeline *pipeline)
     }
     fflush(stdout);
 }
+#endif // PRETTY_PRINT
 
 void pipeline_free(struct pipeline *pipeline)
 {
