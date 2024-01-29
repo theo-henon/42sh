@@ -4,7 +4,7 @@ import pytest
 from shell_script import ShellScript
 from utils import assert_cmd
 
-scripts_dir = "./inputs/step2"
+scripts_dir = "./inputs/step3"
 scripts = [os.path.join(scripts_dir, f) for f in os.listdir(scripts_dir) if os.path.isfile(os.path.join(scripts_dir, f)) and f.endswith('.sh')]
 
 @pytest.mark.parametrize('script', scripts)
