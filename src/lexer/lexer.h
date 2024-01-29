@@ -12,7 +12,7 @@ enum lexer_status
     LEXER_OK,
     LEXER_END,
     LEXER_INVALID_TOKEN,
-    LEXER_UNEXPECTED_EOF
+    LEXER_UNEXPECTED_EOF,
 };
 
 struct lexer

@@ -14,6 +14,8 @@ enum token_type
     TOKEN_ELSE,
     TOKEN_THEN,
     TOKEN_ELIF,
+    TOKEN_AND,
+    TOKEN_OR,
 };
 
 struct token
@@ -27,6 +29,7 @@ void token_free(struct token *token);
 void token_set_type(struct token *token);
 bool token_islist_delim(const struct token *token);
 bool token_isclist_delim(const struct token *token);
+bool token_isand_or(const struct token *token);
 bool istoken(char c);
 
 #endif // TOKEN_H

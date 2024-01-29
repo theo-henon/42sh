@@ -40,7 +40,8 @@ int main(int argc, char *argv[])
         ast = parse_input(parser);
     }
 
-    if (parser->status == PARSER_UNEXPECTED_TOKEN)
+    if (lexer->status == LEXER_INVALID_TOKEN
+        || parser->status == PARSER_UNEXPECTED_TOKEN)
         code = 2;
 
     input_free(options.input);

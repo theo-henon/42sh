@@ -43,7 +43,6 @@ void token_set_type(struct token *token)
 
 bool token_islist_delim(const struct token *token)
 {
-    // TODO add & token
     return token->type == TOKEN_EOF || token->type == TOKEN_SEMICOLON;
 }
 
@@ -53,7 +52,12 @@ bool token_isclist_delim(const struct token *token)
         || token->type == TOKEN_EOL;
 }
 
+bool token_isand_or(const struct token *token)
+{
+    return token->type == TOKEN_AND || token->type == TOKEN_OR;
+}
+
 bool istoken(char c)
 {
-    return c == '\0' || c == '\n' || c == ';';
+    return c == '\0' || c == '\n' || c == ';' || c == '&' || c == '|';
 }

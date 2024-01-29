@@ -4,7 +4,8 @@ liblexer_a_SOURCES =  \
 	io.c io.h \
 	lexer.c lexer.h \
 	token.c token.h \
-	word.c word.h
+	word.c word.h \
+	operator.c operator.h
 
 liblexer_a_CPPFLAGS = -I$(top_srcdir)/src -D_POSIX_C_SOURCE=202401L
 

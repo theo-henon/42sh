@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "operator.h"
 #include "token.h"
 #include "utils/strbuilder.h"
 #include "word.h"
@@ -65,13 +66,17 @@ struct token *lexer_pop(struct lexer *lexer)
     case ';':
         type = TOKEN_SEMICOLON;
         break;
+    case '&':
+    case '|':
+        value = operator_lex(lexer, first, &type);
+        break;
     default:
         type = TOKEN_WORD;
         value = word_lex(lexer, first);
         break;
     }
 
-    if (lexer->status == LEXER_UNEXPECTED_EOF)
+    if (lexer->status != LEXER_OK)
     {
         lexer->current = token_create(TOKEN_EOF, strdup(""));
         return lexer->current;
