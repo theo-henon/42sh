@@ -47,6 +47,7 @@ void ast_free(struct ast *ast)
     free(ast);
 }
 
+#ifdef PRETTY_PRINT
 void base_print(const struct base *base)
 {
     switch (base->type)
@@ -63,7 +64,10 @@ void base_print(const struct base *base)
     case SIMPLE_CMD:
         simple_cmd_print((struct simple_cmd *)base);
         break;
+    case IF_CLAUSE:
+        if_clause_print((struct if_clause *)base);
     default:
         return;
     }
 }
+#endif // PRETTY_PRINT

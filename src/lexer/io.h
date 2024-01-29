@@ -193,38 +193,4 @@ char input_readchar(struct input *input);
 */
 void input_free(struct input *input);
 
-/**
-** \brief Determines the input source based on command-line arguments and
-** returns an appropriate 'input' structure.
-**
-** This function analyzes the command-line arguments passed to the program to
-** determine the source of input for the shell. It supports three modes of
-** operation:
-** 1. If the program is called with exactly three arguments and the second
-** argument is "-c", it treats the third argument as a command string and
-** returns an 'input' structure initialized with this string.
-** 2. If the program is called with exactly two arguments, it treats the second
-** argument as a file name and returns an 'input' structure initialized with
-** this file.
-** 3. If the program is called with only one argument (typically the program
-** name), it returns an 'input' structure for reading from the standard input
-** (stdin). If the arguments do not match any of these patterns, an error
-** message is printed to stderr, and the function returns NULL.
-**
-** \param argc The argument count as passed to the main function.
-** \param argv The argument vector as passed to the main function. It is an
-** array of character pointers, each pointing to a null-terminated string
-** argument.
-** \return On success, returns a pointer to an initialized 'input' structure
-** based on the provided arguments. On failure, or if the arguments are invalid,
-** prints an error message to stderr and returns NULL.
-**
-** \note
-** - This function is typically used in the main function of the program to
-** initialize input handling based on command-line arguments.
-** - The caller is responsible for freeing the returned 'input' structure by
-** calling 'input_free' when it is no longer needed.
-*/
-struct input *input_get(int argc, char *argv[]);
-
 #endif /* ! IO_H */

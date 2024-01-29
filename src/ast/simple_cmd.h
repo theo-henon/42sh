@@ -57,6 +57,7 @@ struct simple_cmd *simple_cmd_init(void);
 */
 void simple_cmd_addarg(struct simple_cmd *cmd, char *arg);
 
+#ifdef PRETTY_PRINT
 /**
 ** \brief Print a 'simple_cmd' node.
 **
@@ -66,6 +67,7 @@ void simple_cmd_addarg(struct simple_cmd *cmd, char *arg);
 ** \param cmd A pointer to a 'simple_cmd' node. Must not be NULL.
 */
 void simple_cmd_print(const struct simple_cmd *cmd);
+#endif // PRETTY_PRINT
 
 /**
 ** \brief Release all memory held by a 'simple_cmd' node.

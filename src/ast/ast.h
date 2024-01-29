@@ -76,6 +76,7 @@ void base_free(struct base *base);
 */
 void ast_free(struct ast *ast);
 
+#ifdef PRETTY_PRINT
 /**
 ** @brief Print any types of node of the AST.
 **
@@ -84,5 +85,6 @@ void ast_free(struct ast *ast);
 ** @param base A pointer to a node of the AST. Must not be NULL.
 */
 void base_print(const struct base *base);
+#endif // PRETTY_PRINT
 
 #endif /* ! AST_H */

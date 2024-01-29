@@ -92,16 +92,3 @@ void input_free(struct input *input)
         fclose(input->stream);
     free(input);
 }
-
-struct input *input_get(int argc, char *argv[])
-{
-    if (argc == 3 && strcmp(argv[1], "-c") == 0)
-        return input_from_string(argv[2]);
-    if (argc == 2)
-        return input_from_file(argv[1]);
-    if (argc == 1)
-        return input_from_stdin();
-    else
-        fprintf(stderr, "Invalid Arguments\n");
-    return NULL;
-}

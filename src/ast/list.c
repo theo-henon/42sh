@@ -27,18 +27,22 @@ void list_append(struct list *list, struct and_or *and_or,
     tmp->next = node;
 }
 
+#ifdef PRETTY_PRINT
 void list_print(const struct list *list)
 {
-    if (!list)
-        return;
     while (list != NULL)
     {
         and_or_print(list->and_or);
-        printf(" ");
+        if (list->next != NULL)
+        {
+            putchar(';');
+            fflush(stdout);
+        }
         list = list->next;
     }
-    printf("\n");
+    fflush(stdout);
 }
+#endif // PRETTY_PRINT
 
 void list_free(struct list *list)
 {
