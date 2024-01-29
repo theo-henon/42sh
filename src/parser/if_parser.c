@@ -5,7 +5,6 @@
 struct else_clause *parse_elif_clause(struct parser *parser)
 {
     struct token *token = lexer_peek(parser->lexer);
-    token = lexer_pop(parser->lexer);
     struct list *condition = parse_compound_list(parser);
     token = lexer_peek(parser->lexer);
     if (condition == NULL || token->type != TOKEN_THEN)
@@ -60,7 +59,7 @@ struct else_clause *parse_elif_clause(struct parser *parser)
 struct if_clause *parse_if_clause(struct parser *parser)
 {
     struct list *condition = parse_compound_list(parser);
-    struct token *token = lexer_pop(parser->lexer);
+    struct token *token = lexer_peek(parser->lexer);
 
     while (token->type == TOKEN_EOL)
         token = lexer_pop(parser->lexer);
