@@ -1,5 +1,5 @@
-#ifndef STRING_H
-#define STRING_H
+#ifndef STRBUILDER_H
+#define STRBUILDER_H
 
 #define STRING_INITIAL_CAPACITY 16
 
@@ -17,4 +17,4 @@ void string_catbuf(struct string *str, const char *buf, size_t n);
 char *string_tobuf(const struct string *str);
 void string_free(struct string *str);
 
-#endif // STRING_H
+#endif // STRBUILDER_H

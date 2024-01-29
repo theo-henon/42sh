@@ -1,5 +1,5 @@
-#ifndef PIPELINE_VISITOR
-#define PIPELINE_VISITOR
+#ifndef PIPELINE_VISITOR_H
+#define PIPELINE_VISITOR_H
 
 #include "ast/pipeline.h"
 #include "visitor.h"

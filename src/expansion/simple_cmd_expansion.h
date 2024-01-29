@@ -1,5 +1,5 @@
-#ifndef SIMPLE_CMD_EXPANSION
-#define SIMPLE_CMD_EXPANSION
+#ifndef SIMPLE_CMD_EXPANSION_H
+#define SIMPLE_CMD_EXPANSION_H
 
 #include <stdlib.h>
 
@@ -8,4 +8,4 @@
 
 void expand_simple_cmd(struct simple_cmd *cmd);
 
-#endif // SIMPLE_CMD_EXPANSION
+#endif // SIMPLE_CMD_EXPANSION_H
