@@ -20,7 +20,8 @@ enum ast_type
     PIPELINE,
     SIMPLE_CMD,
     IF_CLAUSE,
-    WHILE_CLAUSE
+    WHILE_CLAUSE,
+    UNTIL_CLAUSE
 };
 
 /**

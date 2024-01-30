@@ -7,7 +7,8 @@ libast_a_SOURCES =  \
 	list.c list.h \
 	pipeline.c pipeline.h \
 	simple_cmd.c simple_cmd.h \
-	while.c while.h
+	while.c while.h \
+	until.c until.h
 
 libast_a_CPPFLAGS = -I$(top_srcdir)/src -D_POSIX_C_SOURCE=202401L
 

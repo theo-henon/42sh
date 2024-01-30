@@ -7,6 +7,7 @@ libvisitor_a_SOURCES =  \
 	simple_cmd_visitor.c simple_cmd_visitor.h \
 	if_visitor.c if_visitor.h \
 	while_visitor.c while_visitor.h \
+	until_visitor.c until_visitor.h \
 	visitor.c visitor.h
 
 libvisitor_a_CPPFLAGS = -I$(top_srcdir)/src -D_POSIX_C_SOURCE=202401L

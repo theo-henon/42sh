@@ -5,6 +5,7 @@
 
 #include "ast/simple_cmd.h"
 #include "if_parser.h"
+#include "until_parser.h"
 #include "while_parser.h"
 
 struct simple_cmd *parse_simple_cmd(struct parser *parser)
@@ -38,5 +39,7 @@ struct base *parse_cmd(struct parser *parser)
         return (struct base *)parse_if_clause(parser);
     if (token->type == TOKEN_WHILE)
         return (struct base *)parse_while_clause(parser);
+    if (token->type == TOKEN_UNTIL)
+        return (struct base *)parse_until_clause(parser);
     return (struct base *)parse_simple_cmd(parser);
 }

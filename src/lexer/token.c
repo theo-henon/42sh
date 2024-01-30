@@ -43,7 +43,8 @@ void token_set_type(struct token *token)
         token->type = TOKEN_DO;
     else if (strcmp(token->value, "done") == 0)
         token->type = TOKEN_DONE;
-
+    else if (strcmp(token->value, "until") == 0)
+        token->type = TOKEN_UNTIL;
     else
         token->type = TOKEN_WORD;
 }
