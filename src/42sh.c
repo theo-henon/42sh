@@ -36,12 +36,18 @@ int main(int argc, char *argv[])
             putchar('\n');
             fflush(stdout);
         }
-        else
-            code = base_visit(visitor, ast->root);
+        else if (parser->status != PARSER_UNEXPECTED_TOKEN)
+           code = base_visit(visitor, ast->root);
 #else
-        code = base_visit(visitor, ast->root);
+        if (parser->status != PARSER_UNEXPECTED_TOKEN)
+            code = base_visit(visitor, ast->root);
 #endif // PRETTY_PRINT
         ast_free(ast);
+        if (parser->status == PARSER_UNEXPECTED_TOKEN)
+        {
+            code = 2;
+            break;
+        }
         ast = parse_input(parser);
     }
 

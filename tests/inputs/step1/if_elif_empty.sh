@@ -1,6 +1,6 @@
-if echo toto;
+if echo tata;
 then
-    echo toto
+    echo toto;
 elif
     ;
 then

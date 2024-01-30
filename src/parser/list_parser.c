@@ -63,7 +63,7 @@ struct list *parse_compound_list(struct parser *parser)
         else
         {
             list_append(list, and_or, tmp);
-            token = lexer_peak(parser->lexer);
+            token = lexer_peek(parser->lexer);
         }
         while (token->type == TOKEN_EOL)
             token = lexer_pop(parser->lexer);
