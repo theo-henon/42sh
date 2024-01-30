@@ -8,13 +8,7 @@
 
 int builtin_cd(char **argv, __attribute__((unused)) struct visitor *visitor)
 {
-
     char *home = getenv("HOME");
-    if (strcmp(argv[1], "-") == 0)
-    {
-        printf("%s", home);
-        return 0;
-    }
     if (argv[1] == NULL)
     {
         if (home != NULL)
@@ -33,6 +27,12 @@ int builtin_cd(char **argv, __attribute__((unused)) struct visitor *visitor)
     }
     else
     {
+        if (strcmp(argv[1], "-") == 0)
+        {
+            chdir(getenv("OLDPWD"));
+            printf("%s\n", getenv("OLDPWD"));
+            return 0;
+        }
         if (chdir(argv[1]) != 0)
         {
             fprintf(stderr, "Error chdir !\n");
