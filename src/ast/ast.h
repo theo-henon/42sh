@@ -19,7 +19,8 @@ enum ast_type
     AND_OR,
     PIPELINE,
     SIMPLE_CMD,
-    IF_CLAUSE
+    IF_CLAUSE,
+    WHILE_CLAUSE
 };
 
 /**

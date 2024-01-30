@@ -37,6 +37,13 @@ void token_set_type(struct token *token)
         token->type = TOKEN_THEN;
     else if (strcmp(token->value, "elif") == 0)
         token->type = TOKEN_ELIF;
+    else if (strcmp(token->value, "while") == 0)
+        token->type = TOKEN_WHILE;
+    else if (strcmp(token->value, "do") == 0)
+        token->type = TOKEN_DO;
+    else if (strcmp(token->value, "done") == 0)
+        token->type = TOKEN_DONE;
+
     else
         token->type = TOKEN_WORD;
 }

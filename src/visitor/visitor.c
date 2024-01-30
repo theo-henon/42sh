@@ -48,6 +48,8 @@ int base_visit(struct visitor *visitor, struct base *base)
         return visitor->simple_cmd_visit(visitor, (struct simple_cmd *)base);
     case IF_CLAUSE:
         return visitor->if_visit(visitor, (struct if_clause *)base);
+    case WHILE_CLAUSE:
+        return visitor->while_visit(visitor, (struct while_clause *)base);
     default:
         return 2;
     }

@@ -6,6 +6,7 @@
 #include "if.h"
 #include "list.h"
 #include "simple_cmd.h"
+#include "while.h"
 
 struct ast *ast_create(struct base *root)
 {
@@ -34,6 +35,8 @@ void base_free(struct base *base)
     case IF_CLAUSE:
         if_clause_free((struct if_clause *)base);
         break;
+    case WHILE_CLAUSE:
+        while_clause_free((struct while_clause *)base);
     default:
         break;
     }
