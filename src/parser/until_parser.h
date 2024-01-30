@@ -6,4 +6,4 @@
 
 struct until_clause *parse_until_clause(struct parser *parser);
 
-#endif /* ! WHILE_UNTIL_H */
+#endif /* ! UNTIL_PARSER_H */
