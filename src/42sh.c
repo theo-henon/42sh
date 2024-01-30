@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "ast/ast.h"
 #include "builtins/builtins.h"
@@ -12,6 +13,10 @@
 
 int main(int argc, char *argv[])
 {
+
+    char *cwd = getcwd(NULL, 0);
+    setenv("PWD", cwd, 1);
+    free(cwd);
     struct options options = { 0 };
     if (options_parse(argc, argv, &options) == -1)
         return 2;
