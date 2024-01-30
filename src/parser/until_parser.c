@@ -10,6 +10,7 @@ struct until_clause *parse_until_clause(struct parser *parser)
         token = lexer_pop(parser->lexer);
     if (token->type != TOKEN_DO || !condition)
     {
+        fprintf(stderr, "condition null or no do\n");
         parser->status = PARSER_UNEXPECTED_TOKEN;
         list_free(condition);
         return NULL;
@@ -20,6 +21,7 @@ struct until_clause *parse_until_clause(struct parser *parser)
     token = lexer_peek(parser->lexer);
     if (token->type != TOKEN_DONE || !body)
     {
+        fprintf(stderr, "body null or not done");
         parser->status = PARSER_UNEXPECTED_TOKEN;
         list_free(condition);
         list_free(body);

@@ -10,6 +10,7 @@ struct while_clause *parse_while_clause(struct parser *parser)
         token = lexer_pop(parser->lexer);
     if (token->type != TOKEN_DO || !condition)
     {
+        fprintf(stderr, "condition null or no do");
         parser->status = PARSER_UNEXPECTED_TOKEN;
         list_free(condition);
         return NULL;
@@ -20,6 +21,7 @@ struct while_clause *parse_while_clause(struct parser *parser)
     token = lexer_peek(parser->lexer);
     if (token->type != TOKEN_DONE || !body)
     {
+        fprintf(stderr, "body null or no done");
         parser->status = PARSER_UNEXPECTED_TOKEN;
         list_free(condition);
         list_free(body);
