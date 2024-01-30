@@ -17,5 +17,4 @@ void while_clause_free(struct while_clause *while_clause)
     list_free(while_clause->condition);
     list_free(while_clause->body);
     free(while_clause);
-    ;
 }

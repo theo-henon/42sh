@@ -9,6 +9,7 @@
 #include "list_visitor.h"
 #include "pipeline_visitor.h"
 #include "simple_cmd_visitor.h"
+#include "while_visitor.h"
 
 struct visitor *visitor_init(void)
 {
@@ -22,6 +23,7 @@ struct visitor *visitor_init(void)
         visitor->pipeline_visit = pipeline_visit;
         visitor->simple_cmd_visit = simple_cmd_visit;
         visitor->if_visit = if_visit;
+        visitor->while_visit = while_visit;
     }
     else
         perror("Cannot create visitor");

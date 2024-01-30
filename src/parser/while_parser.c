@@ -2,7 +2,7 @@
 
 #include "list_parser.h"
 
-struct while_clause *while_clause_parser(struct parser *parser)
+struct while_clause *parse_while_clause(struct parser *parser)
 {
     struct list *condition = parse_compound_list(parser);
     struct token *token = lexer_peek(parser->lexer);
@@ -17,6 +17,7 @@ struct while_clause *while_clause_parser(struct parser *parser)
 
     lexer_peek(parser->lexer);
     struct list *body = parse_compound_list(parser);
+    token = lexer_peek(parser->lexer);
     if (token->type != TOKEN_DONE || !body)
     {
         parser->status = PARSER_UNEXPECTED_TOKEN;
@@ -24,5 +25,6 @@ struct while_clause *while_clause_parser(struct parser *parser)
         list_free(body);
         return NULL;
     }
+    token = lexer_pop(parser->lexer);
     return while_clause_create(condition, body);
 }
