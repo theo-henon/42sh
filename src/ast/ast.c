@@ -24,23 +24,11 @@ void base_free(struct base *base)
     case LIST:
         list_free((struct list *)base);
         break;
-    case AND_OR:
-        and_or_free((struct and_or *)base);
-        break;
-    case PIPELINE:
-        pipeline_free((struct pipeline *)base);
-        break;
     case SIMPLE_CMD:
         simple_cmd_free((struct simple_cmd *)base);
         break;
     case IF_CLAUSE:
         if_clause_free((struct if_clause *)base);
-        break;
-    case WHILE_CLAUSE:
-        while_clause_free((struct while_clause *)base);
-        break;
-    case UNTIL_CLAUSE:
-        until_clause_free((struct until_clause *)base);
         break;
     default:
         break;
