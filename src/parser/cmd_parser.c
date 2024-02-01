@@ -10,7 +10,7 @@ struct simple_cmd *parse_simple_cmd(struct parser *parser)
 {
     struct token *token = lexer_peek(parser->lexer);
     struct simple_cmd *cmd = simple_cmd_init();
-    while (!token_isclist_delim(token))
+    while (!token_isclist_delim(token) && !token_isand_or(token))
     {
         simple_cmd_addarg(cmd, strdup(token->value));
         token = lexer_pop(parser->lexer);

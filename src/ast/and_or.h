@@ -34,7 +34,7 @@
 ** \var and_or::pipeline
 ** The pipeline contained in the node. Can be NULL
 **
-** \var and_or::operator
+** \var and_or::op
 ** The operator between two 'pipeline' nodes in the input.
 ** Its value can be TOKEN_AND or TOKEN_OR.
 **
@@ -48,7 +48,7 @@ struct and_or
 {
     struct base base;
     struct pipeline *pipeline;
-    enum token_type operator;
+    enum token_type op;
     struct and_or *left;
     struct and_or *right;
 };
@@ -70,7 +70,8 @@ struct and_or *and_or_create_pipeline(struct pipeline *pipeline);
 ** \return A pointer to a new 'and_or' node with its 'operator' field filled
 ** with 'operator' argument.
 */
-struct and_or *and_or_create_operator(enum token_type operator);
+struct and_or *and_or_create_operator(enum token_type op, struct pipeline *left,
+                                      struct pipeline *right);
 
 #ifdef PRETTY_PRINT
 /**

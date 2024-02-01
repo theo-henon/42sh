@@ -13,12 +13,15 @@ struct and_or *and_or_create_pipeline(struct pipeline *pipeline)
     return new_and_or;
 }
 
-struct and_or *and_or_create_operator(enum token_type operator)
+struct and_or *and_or_create_operator(enum token_type op, struct pipeline *left,
+                                      struct pipeline *right)
 {
     struct and_or *new_and_or = calloc(1, sizeof(struct and_or));
     if (!new_and_or)
         return NULL;
-    new_and_or->operator= operator;
+    new_and_or->op = op;
+    new_and_or->left = and_or_create_pipeline(left);
+    new_and_or->right = and_or_create_pipeline(right);
     return new_and_or;
 }
 
