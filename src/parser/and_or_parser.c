@@ -12,9 +12,10 @@ struct and_or *parse_and_or(struct parser *parser)
 
     struct token *token = lexer_peek(parser->lexer);
     struct and_or *root = NULL;
-    struct and_or *node = NULL;
     while (token_isand_or(token))
     {
+        enum token_type op = token->type;
+        lexer_pop(parser->lexer);
         struct pipeline *r_pipeline = parse_pipeline(parser);
         if (!r_pipeline)
         {
@@ -23,16 +24,12 @@ struct and_or *parse_and_or(struct parser *parser)
         }
 
         if (root == NULL)
-        {
-            root = and_or_create_operator(token->type, l_pipeline, r_pipeline);
-            node = root;
-        }
+            root =
+                and_or_create_operator(op, and_or_create_pipeline(l_pipeline),
+                                       and_or_create_pipeline(r_pipeline));
         else
-        {
-            node =
-                and_or_create_operator(token->type, node->pipeline, r_pipeline);
-            free(node);
-        }
+            root = and_or_create_operator(op, root,
+                                          and_or_create_pipeline(r_pipeline));
 
         token = lexer_peek(parser->lexer);
     }

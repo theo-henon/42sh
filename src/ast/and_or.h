@@ -70,8 +70,8 @@ struct and_or *and_or_create_pipeline(struct pipeline *pipeline);
 ** \return A pointer to a new 'and_or' node with its 'operator' field filled
 ** with 'operator' argument.
 */
-struct and_or *and_or_create_operator(enum token_type op, struct pipeline *left,
-                                      struct pipeline *right);
+struct and_or *and_or_create_operator(enum token_type op, struct and_or *left,
+                                      struct and_or *right);
 
 #ifdef PRETTY_PRINT
 /**

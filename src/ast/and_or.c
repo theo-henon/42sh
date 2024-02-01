@@ -13,22 +13,30 @@ struct and_or *and_or_create_pipeline(struct pipeline *pipeline)
     return new_and_or;
 }
 
-struct and_or *and_or_create_operator(enum token_type op, struct pipeline *left,
-                                      struct pipeline *right)
+struct and_or *and_or_create_operator(enum token_type op, struct and_or *left,
+                                      struct and_or *right)
 {
     struct and_or *new_and_or = calloc(1, sizeof(struct and_or));
     if (!new_and_or)
         return NULL;
     new_and_or->op = op;
-    new_and_or->left = and_or_create_pipeline(left);
-    new_and_or->right = and_or_create_pipeline(right);
+    new_and_or->left = left;
+    new_and_or->right = right;
+    new_and_or->base.type = AND_OR;
     return new_and_or;
 }
 
 #ifdef PRETTY_PRINT
 void and_or_print(const struct and_or *and_or)
 {
-    pipeline_print(and_or->pipeline);
+    if (and_or->pipeline != NULL)
+        pipeline_print(and_or->pipeline);
+    else
+    {
+        and_or_print(and_or->left);
+        printf(" %s ", and_or->op == TOKEN_AND ? "&&" : "||");
+        and_or_print(and_or->right);
+    }
     fflush(stdout);
 }
 #endif // PRETTY_PRINT
