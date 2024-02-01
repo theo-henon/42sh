@@ -24,18 +24,7 @@ int main(int argc, char *argv[])
     int code = 0;
     while (ast)
     {
-#ifdef PRETTY_PRINT
-        if (options.pretty_print)
-        {
-            base_print(ast->root);
-            putchar('\n');
-            fflush(stdout);
-        }
-        else
-            code = base_visit(visitor, ast->root);
-#else
         code = base_visit(visitor, ast->root);
-#endif // PRETTY_PRINT
         ast_free(ast);
         ast = parse_input(parser);
     }

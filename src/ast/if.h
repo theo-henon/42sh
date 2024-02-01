@@ -105,22 +105,6 @@ struct else_clause *else_clause_create(struct list *condition,
 */
 void else_clause_append(struct else_clause *else_clause, struct list *condition,
                         struct list *body);
-
-#ifdef PRETTY_PRINT
-/**
-** \brief Print whole list of 'else_clause' nodes.
-**
-** Browse all 'else_clause' nodes, and for each prints either 'else' if
-** 'condition' field is NULL or 'elif', then calls
-** 'list_print' with its 'condition' field, followed by a line feed, then calls
-** 'list_print' with its 'body' field, followed by another line feed.
-**
-** \param else_clause A pointer to a list of 'else_clause' nodes.
-** Must not be NULL.
-*/
-void else_clause_print(const struct else_clause *else_clause);
-#endif // PRETTY_PRINT
-
 /**
 ** \brief Release all memory held by the provided list of 'else_clause' nodes.
 **
@@ -146,20 +130,6 @@ void else_clause_free(struct else_clause *else_clause);
 */
 struct if_clause *if_clause_create(struct list *condition, struct list *body,
                                    struct else_clause *else_clauses);
-
-#ifdef PRETTY_PRINT
-/**
-** \brief Print an 'if_clause' node.
-**
-** Print 'if', followed by a single whitespace, then call 'list_print' with
-** 'condition' field, followed by a line feed. Print 'then', followed by a
-** linefeed, then call 'list_print' with 'body' field. If 'else_clauses' is not
-** NULL, call 'else_clause_print' with 'else_clauses' field.
-**
-** \param if_clause A pointer to an 'if_clause' node. Must not be NULL.
-*/
-void if_clause_print(const struct if_clause *if_clause);
-#endif // PRETTY_PRINT
 
 /**
  * @brief Release all memory held by an 'if_clause' node.

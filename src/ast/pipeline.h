@@ -82,19 +82,6 @@ struct pipeline *pipeline_create(struct base *cmd);
 */
 void pipeline_append(struct pipeline *pipeline, struct base *cmd);
 
-#ifdef PRETTY_PRINT
-/**
-** \brief Print the provided pipeline.
-**
-** Browse all nodes of the provided pipeline, and for each node,
-** call 'base_print' with the 'cmd' field, then print a pipe '|' if 'next'
-** field is not NULL.
-**
-** \param pipeline A pointer to the pipeline you want to print.
-*/
-void pipeline_print(const struct pipeline *pipeline);
-#endif // PRETTY_PRINT
-
 /**
 ** \brief Release all memory held by the provided pipeline
 **

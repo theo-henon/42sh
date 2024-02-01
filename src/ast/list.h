@@ -72,19 +72,6 @@ struct list *list_create(struct and_or *and_or);
 void list_append(struct list *list, struct and_or *and_or,
                  enum token_type separator);
 
-#ifdef PRETTY_PRINT
-/**
-** \brief Print the whole list
-**
-** Browse the list, and for each node, calls 'and_or_print' with its 'and_or'
-** field, then print
-** the separator (if 'next' field is not NULL).
-**
-** \param list A pointer to the list you want to print. Must not be NULL.
-*/
-void list_print(const struct list *list);
-#endif // PRETTY_PRINT
-
 /**
 ** \brief Release all memory held by the list
 **

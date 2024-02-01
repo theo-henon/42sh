@@ -46,28 +46,3 @@ void ast_free(struct ast *ast)
     base_free(ast->root);
     free(ast);
 }
-
-#ifdef PRETTY_PRINT
-void base_print(const struct base *base)
-{
-    switch (base->type)
-    {
-    case LIST:
-        list_print((struct list *)base);
-        break;
-    case AND_OR:
-        and_or_print((struct and_or *)base);
-        break;
-    case PIPELINE:
-        pipeline_print((struct pipeline *)base);
-        break;
-    case SIMPLE_CMD:
-        simple_cmd_print((struct simple_cmd *)base);
-        break;
-    case IF_CLAUSE:
-        if_clause_print((struct if_clause *)base);
-    default:
-        return;
-    }
-}
-#endif // PRETTY_PRINT

@@ -28,26 +28,6 @@ void else_clause_append(struct else_clause *else_clause, struct list *condition,
     tmp->next = node;
 }
 
-#ifdef PRETTY_PRINT
-void else_clause_print(const struct else_clause *else_clause)
-{
-    const struct else_clause *tmp = else_clause;
-    while (tmp)
-    {
-        if (tmp->condition)
-        {
-            printf("elif ");
-            list_print(tmp->condition);
-        }
-        else
-            printf("else ");
-        printf("\n");
-        list_print(else_clause->body);
-        tmp = tmp->next;
-    }
-}
-#endif // PRETTY_PRINT
-
 void else_clause_free(struct else_clause *else_clause)
 {
     if (!else_clause)
@@ -75,18 +55,6 @@ struct if_clause *if_clause_create(struct list *condition, struct list *body,
 
     return if_clause;
 }
-
-#ifdef PRETTY_PRINT
-void if_clause_print(const struct if_clause *if_clause)
-{
-    printf("if ");
-    list_print(if_clause->condition);
-    printf("\n");
-    list_print(if_clause->body);
-    printf("\n");
-    else_clause_print(if_clause->else_clauses);
-}
-#endif // PRETTY_PRINT
 
 void if_clause_free(struct if_clause *if_clause)
 {

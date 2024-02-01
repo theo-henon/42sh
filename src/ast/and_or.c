@@ -26,21 +26,6 @@ struct and_or *and_or_create_operator(enum token_type op, struct and_or *left,
     return new_and_or;
 }
 
-#ifdef PRETTY_PRINT
-void and_or_print(const struct and_or *and_or)
-{
-    if (and_or->pipeline != NULL)
-        pipeline_print(and_or->pipeline);
-    else
-    {
-        and_or_print(and_or->left);
-        printf(" %s ", and_or->op == TOKEN_AND ? "&&" : "||");
-        and_or_print(and_or->right);
-    }
-    fflush(stdout);
-}
-#endif // PRETTY_PRINT
-
 void and_or_free(struct and_or *and_or)
 {
     if (and_or != NULL)
