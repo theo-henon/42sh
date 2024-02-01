@@ -9,6 +9,8 @@
 #include "list_visitor.h"
 #include "pipeline_visitor.h"
 #include "simple_cmd_visitor.h"
+#include "until_visitor.h"
+#include "while_visitor.h"
 
 struct visitor *visitor_init(void)
 {
@@ -22,6 +24,8 @@ struct visitor *visitor_init(void)
         visitor->pipeline_visit = pipeline_visit;
         visitor->simple_cmd_visit = simple_cmd_visit;
         visitor->if_visit = if_visit;
+        visitor->while_visit = while_visit;
+        visitor->until_visit = until_visit;
     }
     else
         perror("Cannot create visitor");
@@ -48,6 +52,10 @@ int base_visit(struct visitor *visitor, struct base *base)
         return visitor->simple_cmd_visit(visitor, (struct simple_cmd *)base);
     case IF_CLAUSE:
         return visitor->if_visit(visitor, (struct if_clause *)base);
+    case WHILE_CLAUSE:
+        return visitor->while_visit(visitor, (struct while_clause *)base);
+    case UNTIL_CLAUSE:
+        return visitor->until_visit(visitor, (struct until_clause *)base);
     default:
         return 2;
     }

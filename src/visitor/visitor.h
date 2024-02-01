@@ -7,6 +7,8 @@
 #include "ast/list.h"
 #include "ast/pipeline.h"
 #include "ast/simple_cmd.h"
+#include "ast/until.h"
+#include "ast/while.h"
 
 struct visitor
 {
@@ -16,6 +18,10 @@ struct visitor
     int (*pipeline_visit)(struct visitor *visitor, struct pipeline *pipeline);
     int (*simple_cmd_visit)(struct visitor *visitor, struct simple_cmd *cmd);
     int (*if_visit)(struct visitor *visitor, struct if_clause *if_clause);
+    int (*while_visit)(struct visitor *visitor,
+                       struct while_clause *while_clause);
+    int (*until_visit)(struct visitor *visitor,
+                       struct until_clause *until_clause);
 };
 
 struct visitor *visitor_init(void);

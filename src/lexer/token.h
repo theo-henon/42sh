@@ -16,6 +16,10 @@ enum token_type
     TOKEN_ELIF,
     TOKEN_AND,
     TOKEN_OR,
+    TOKEN_WHILE,
+    TOKEN_DO,
+    TOKEN_DONE,
+    TOKEN_UNTIL
 };
 
 struct token
